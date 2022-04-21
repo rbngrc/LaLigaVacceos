@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import { firebase } from "../firebase/firebase-config"
 
-import { AuthRouter } from "./AuthRouter";
+import { LogAuthRouter } from "./LogAuthRouter";
 import { DasboardRoutes } from "./DasboardRoutes";
 import { LoadingScreen } from "../components/ui/LoadingScreen"
 
@@ -44,7 +44,7 @@ export const AppRouter = () => {
             <PublicRoute
                 isAuthenticated={isLoggedIn}
                 path="/auth" 
-                component={AuthRouter} 
+                component={LogAuthRouter} 
             />
 
             <PrivateRoute
