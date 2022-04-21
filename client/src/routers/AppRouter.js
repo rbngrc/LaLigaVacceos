@@ -1,7 +1,13 @@
 import React, { useState,useEffect } from 'react';
 import { useDispatch } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Switch,
+} from "react-router-dom";
+import { firebase } from "../firebase/firebase-config"
 
-
+import { AuthRouter } from "./AuthRouter";
+import { DasboardRoutes } from "./DasboardRoutes";
 import { LoadingScreen } from "../components/ui/LoadingScreen"
 
 export const AppRouter = () => {
@@ -32,8 +38,22 @@ export const AppRouter = () => {
       )
   }  
   return (
-    <div>
-        
-    </div>
-  )
+    <Router>
+        <div>
+        <Switch>       
+            <PublicRoute
+                isAuthenticated={isLoggedIn}
+                path="/auth" 
+                component={AuthRouter} 
+            />
+
+            <PrivateRoute
+                isAuthenticated={isLoggedIn} 
+                path="/" 
+                component={DasboardRoutes}
+            />
+        </Switch>
+        </div>
+    </Router>
+)
 }
