@@ -6,8 +6,8 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { LoginScreen } from "../components/auth/LoginScreen";
-import { RegisterScreen } from "../components/auth/RegisterScreen";
+import { LoginScreen } from "../components/log_reg_screen/LoginScreen";
+import { RegisterScreen } from "../components/log_reg_screen/RegisterScreen";
 
 
 export const LogAuthRouter = () => {
@@ -16,15 +16,15 @@ export const LogAuthRouter = () => {
 
             <Switch>       
                 <Route 
-                    exact path="/auth/acceso" 
+                    exact path="/login" 
                     component={LoginScreen} 
                 />
                 <Route 
-                    exact path="/auth/registro" 
+                    exact path="/signin" 
                     component={RegisterScreen} 
                 />
                 
-                <Redirect to="/auth/acceso" />
+                <Redirect to="/login" />
             </Switch>
 
         </Fragment>

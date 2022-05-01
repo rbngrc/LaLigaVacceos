@@ -1,57 +1,57 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { removeError, setError } from '../../actions/ui';
-import { useForm } from '../../hooks/useForm';
-import validator from "validator";
+// import { removeError, setError } from '../../actions/ui';
+// import { useForm } from '../../hooks/useForm';
+// import validator from "validator";
 
 import '../../styles/log_reg_screen/registerScreen.css';
 
 export const RegisterScreen = () => {
 
-    const dispatch = useDispatch();
-    const {msgError} = useSelector(state => state.ui);
+    // const dispatch = useDispatch();
+    // const {msgError} = useSelector(state => state.ui);
 
-    const [formValues, handleInputChange] = useForm({
-            email: "",
-            nickname: "",
-            name: "",
-            password: "",
-            password2: "",
-            sex:""
-    })
+    // const [formValues, handleInputChange] = useForm({
+    //         email: "",
+    //         nickname: "",
+    //         name: "",
+    //         password: "",
+    //         password2: "",
+    //         sex:""
+    // })
 
-    const {email, name, nickname, password, password2, sex} = formValues;
+    // const {email, name, nickname, password, password2, sex} = formValues;
 
-    const handleRegister = (e) => {
-        e.preventDefault();
+    // const handleRegister = (e) => {
+    //     e.preventDefault();
 
-        if (isFormValid()) {
-            dispatch(startRegisterUserPassword(email, name, nickname,password, password2, sex));
-        }
+    //     if (isFormValid()) {
+    //         dispatch(startRegisterUserPassword(email, name, nickname,password, password2, sex));
+    //     }
         
-    }
+    // }
 
-    const isFormValid = () => {
-        if(name.trim().length === 0 ) {
-            dispatch(setError("Se requiere nombre"))
-            return false;
-        } else if (!validator.isEmail(email)) {
-            dispatch(setError("Email no válido"))
-            return false;
-        } else if (password !== password2 || password.length < 5) {
-            dispatch(setError("Las contraseñas deben coincidir y tener al menos 6 caracteres"))
-            return false;
-        }
+    // const isFormValid = () => {
+    //     if(name.trim().length === 0 ) {
+    //         dispatch(setError("Se requiere nombre"))
+    //         return false;
+    //     } else if (!validator.isEmail(email)) {
+    //         dispatch(setError("Email no válido"))
+    //         return false;
+    //     } else if (password !== password2 || password.length < 5) {
+    //         dispatch(setError("Las contraseñas deben coincidir y tener al menos 6 caracteres"))
+    //         return false;
+    //     }
 
-        dispatch(removeError())
-        return true;
-    }
+    //     dispatch(removeError())
+    //     return true;
+    // }
 
     return (
         <form 
             className="login-box"
-            onSubmit={handleRegister}
+            // onSubmit={handleRegister}
         >
             <h1>Registrarse</h1>
             <div className="textbox">
@@ -60,8 +60,8 @@ export const RegisterScreen = () => {
                     placeholder="Email" 
                     name="email" 
                     autoComplete="off"
-                    value={email}
-                    onChange={handleInputChange}
+                    // value={email}
+                    // onChange={handleInputChange}
                 />
             </div>
             <div className="textbox">
@@ -70,8 +70,8 @@ export const RegisterScreen = () => {
                     placeholder="Nombre" 
                     name="name" 
                     autoComplete="off"
-                    value={name}
-                    onChange={handleInputChange}
+                    // value={name}
+                    // onChange={handleInputChange}
                 />
             </div>
             <div className="textbox">
@@ -80,8 +80,8 @@ export const RegisterScreen = () => {
                         placeholder="Apodo" 
                         name="nickname" 
                         autoComplete="off"
-                        value={nickname}
-                        onChange={handleInputChange}
+                        // value={nickname}
+                        // onChange={handleInputChange}
                     />
                 </div>
             <div className="textbox">
@@ -90,8 +90,8 @@ export const RegisterScreen = () => {
                     placeholder="Contraseña" 
                     name="password" 
                     autoComplete="off"
-                    value={password}
-                    onChange={handleInputChange}
+                    // value={password}
+                    // onChange={handleInputChange}
                 />
             </div>
             <div className="textbox">
@@ -100,15 +100,15 @@ export const RegisterScreen = () => {
                     placeholder="Repita la contraseña" 
                     name="password2" 
                     autoComplete="off"
-                    value={password2}
-                    onChange={handleInputChange}
+                    // value={password2}
+                    // onChange={handleInputChange}
                 />
             </div> 
             <div className="textbox">
                     <select 
                         className="textcombo"
                         name="sex"
-                        onChange={handleInputChange}
+                        // onChange={handleInputChange}
                     >
                         <option>seleccione competición</option>
                         <option>Femenina</option>
@@ -116,13 +116,13 @@ export const RegisterScreen = () => {
                     </select>
                 </div> 
 
-            {
+            {/* {
                 msgError &&
                 <div className="alert-error">
                     <p>{msgError}</p>
                 </div>
             }
-            
+             */}
             <button 
                 className="btn" 
                 type="submit" 
@@ -131,7 +131,7 @@ export const RegisterScreen = () => {
             </button>
             <Link
                 className="btn"
-                to="/auth/acceso"
+                to="/login"
             >
                 Volver
             </Link>
