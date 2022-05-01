@@ -6,12 +6,12 @@ const cors = require('cors');
 use.app(cors());
 app.use(express.json());
 
-// Datos de conexión a la base de datos (Se puede parametrizar)
+// Datos de conexión a la base de datos
 const db = mysql.createConnection({
     user: 'root',
     host: 'localhost',
     password: '',
-    database: 'laligavacceos'
+    database: 'vacceos_championships'
 });
 
 // POST insertar datos en tabla
@@ -70,6 +70,17 @@ app.delete('/delete/:id', (req, res) => {
     });
 });
 
-app.listen(3001, () => {
+// Llamada de comprobación de usuario
+app.get('/atletas', (req, res) => {
+    db.query("SELECT * FROM atletas", (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(result)
+        }
+    })
+});
+
+app.listen(3306, () => {
     console.log("Server up & running")
 });
