@@ -1,57 +1,63 @@
-import React, { useState,useEffect } from 'react';
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
 import {
-  BrowserRouter as Router,
-  Switch,
-} from "react-router-dom";
-import Axios from 'axios';
+    BrowserRouter as Router,
+    Switch,
+  } from "react-router-dom";
+import { login } from '../actions/auth';
+import { firebase } from "../firebase/firebase-config"
 
-import { LogAuthRouter } from "./LogAuthRouter";
-import { DasboardRoutes } from './DashboardRoutes';
-import { PublicRoute } from './PublicRoute';
+import { AuthRouter } from './AuthRouter';
+import { DashboardRoutes } from './DashboardRoutes';
+import { LoadingScreen } from '../components/ux/LoadingScreen';
+
 import { PrivateRoute } from './PrivateRoute';
-// import { LoadingScreen } from '../components/ui/LoadingScreen'
-
+import { PublicRoute } from './PublicRoute';
 
 export const AppRouter = () => {
 
-  const [checking, setChecking] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const dispatch = useDispatch();
+
+  const [checking, setchecking] = useState(true);
+  const [isLoggedIn, setisLoggedIn] = useState(false)
 
   useEffect(() => {
-      Axios.get('http://localhost:3306/atletas').then((response) => {
-        if (response?.email) {
-          setIsLoggedIn(true);
-      } else {
-          setIsLoggedIn(false);
-      }
+    firebase.auth().onAuthStateChanged(async(user) => {
+        if (user?.uid) {
+          dispatch(login(user.uid, user.displayName));
+          setisLoggedIn(true);
+        } else {
+          setisLoggedIn(false);
+        }
 
-      setChecking(false);
-      });
-}, [setChecking,setIsLoggedIn])
+        setchecking(false);
+
+    });
+  }, [dispatch, setchecking, setisLoggedIn]);
+
+  if (checking) {
+    return (
+        <LoadingScreen />
+    )
+  };
   
 
-  // if (checking) {
-  //     return (
-  //         <LoadingScreen />
-  //     )
-  // }  
-  return (
-    <Router>
-        <div>
-        <Switch>       
-            <PublicRoute
-                isAuthenticated={isLoggedIn}
-                path="/login" 
-                component={LogAuthRouter} 
-            />
-
-            <PrivateRoute
-                isAuthenticated={isLoggedIn} 
-                path="/" 
-                component={DasboardRoutes}
-            />
-        </Switch>
-        </div>
-    </Router>
+    return (
+      <Router>
+          <div>
+              <Switch>
+                  <PublicRoute
+                      isAuthenticated={isLoggedIn}
+                      path="/auth"
+                      component = { AuthRouter }
+                  />
+                  <PrivateRoute
+                      isAuthenticated={isLoggedIn}
+                      path="/"
+                      component = { DashboardRoutes }
+                  />
+              </Switch>
+          </div>
+      </Router>
     )
 }

@@ -1,0 +1,93 @@
+@font-face {
+    font-family: "UniversalTSD";
+    src: url("../assets/UniversLTStd-UltraCn.otf") format("truetype");
+}
+
+@font-face {
+    font-family: "Homestead";
+    src: url("../assets/homestead-display.ttf") format("truetype");
+}
+
+.login-box {
+    width: 280px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.login-box h1 {
+    float: left;
+    font-family: Homestead;
+    font-size: 40px;
+    border-bottom: 6px solid #ffe603;
+    margin-bottom: 20px;
+    padding: 13px 0;
+}
+
+.textbox {
+    width: 100%;
+    overflow: hidden;
+    font-size: 20px;
+    padding: 8px 0;
+    margin: 8px 0;
+    border-bottom: 1px solid #ffe603;
+}
+
+.textbox input{
+    font-family: UniversalTSD;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 18px;
+    width: 80%;
+    float: left;
+    margin: 0 10px;
+}
+
+.btn{
+    font-family: Homestead;
+    font-size: 16px;
+    background-color: #f1f3f2;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 03.s ease 0s;
+    padding: 9px 25px;
+    margin-top: 20px;
+    text-decoration: none;
+    color: black;
+}
+
+.btn:hover {
+    background-color: #ffe603;
+}
+
+.textcombo {
+    font-family: UniversalTSD;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 18px;
+    width: 80%;
+    float: left;
+    margin: 0 10px;
+}
+
+.textcombo option {
+    font-family: UniversalTSD;
+    font-size: 16px;
+    border: none;
+    outline: none;
+}
+
+.textcombo:hover {
+    color: #ffe603;
+}
+
+.alert-error {
+    font-family: UniversalTSD;
+    font-size: 16px;
+    width: 80%;
+    color: red;
+}

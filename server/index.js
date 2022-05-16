@@ -16,11 +16,15 @@ const db = mysql.createConnection({
 
 // POST insertar datos en tabla
 app.post('/create', (req, res) => {
+    const email = req.body.email;
     const name = req.body.name;
+    const nickname = req.body.nickname;
+    const password = req.body.password;
+    const sex = req.body.sex;
 
     db.query(
-        "INSERT INTO tabla (name) VALUES (?)",
-        [name],
+        "INSERT INTO atletas (email, nombre, apodo, password, sex) VALUES (?, ?, ? ,? ,?)",
+        [email, name, nickname, password, sex],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -31,56 +35,56 @@ app.post('/create', (req, res) => {
     );
 });
 
-// GET obtener datos de la tabla
-app.get('/tabla', (req, res) => {
-    db.query("SELECT * FROM tabla", (err, result) => {
-        if (err) {
-            console.log(err)
-        } else {
-            res.send(result)
-        }
-    })
-});
+// // GET obtener datos de la tabla
+// app.get('/tabla', (req, res) => {
+//     db.query("SELECT * FROM tabla", (err, result) => {
+//         if (err) {
+//             console.log(err)
+//         } else {
+//             res.send(result)
+//         }
+//     })
+// });
 
-// UPDATE actualizar los datos de la tabla
-app.put('/update', (req, res) => {
-    const id = req.params.id;
-    const dato = req.params.dato;
-    db.query("UPDATE tabla SET dato = ? WHERE id = ?", 
-    [dato],
-    (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    });
-});
+// // UPDATE actualizar los datos de la tabla
+// app.put('/update', (req, res) => {
+//     const id = req.params.id;
+//     const dato = req.params.dato;
+//     db.query("UPDATE tabla SET dato = ? WHERE id = ?", 
+//     [dato],
+//     (err, result) => {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             res.send(result);
+//         }
+//     });
+// });
 
-// DELETE borrar datos de la tabla
-app.delete('/delete/:id', (req, res) => {
-    const id = req.params.id;
-    db.query("DELETE FROM tabla WHERE id = ?", id, 
-    (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    });
-});
+// // DELETE borrar datos de la tabla
+// app.delete('/delete/:id', (req, res) => {
+//     const id = req.params.id;
+//     db.query("DELETE FROM tabla WHERE id = ?", id, 
+//     (err, result) => {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             res.send(result);
+//         }
+//     });
+// });
 
-// Llamada de comprobación de usuario
-app.get('/atletas', (req, res) => {
-    db.query("SELECT * FROM atletas", (err, result) => {
-        if (err) {
-            console.log(err)
-        } else {
-            res.send(result)
-        }
-    })
-});
+// // Llamada de comprobación de usuario
+// app.get('/atletas', (req, res) => {
+//     db.query("SELECT * FROM atletas", (err, result) => {
+//         if (err) {
+//             console.log(err)
+//         } else {
+//             res.send(result)
+//         }
+//     })
+// });
 
-app.listen(3306, () => {
+app.listen(3001, () => {
     console.log("Server up & running")
 });

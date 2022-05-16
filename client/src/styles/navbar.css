@@ -1,0 +1,100 @@
+@font-face {
+    font-family: "UniversalTSD";
+    src: url("../assets/UniversLTStd-UltraCn.otf") format("truetype");
+}
+
+@font-face {
+    font-family: "Homestead";
+    src: url("../assets/homestead-display.ttf") format("truetype");
+}
+
+* {
+    background-color: white;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+li, a, button {
+    color: black;
+    font-family: Homestead;
+    font-weight: 500;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+nav {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 10%;
+}
+
+.logo {
+    height: 15vw;
+    width: 15vw;
+}
+
+.nav_link {
+    list-style: none;
+}
+
+.nav_link>.item-link {
+    display: inline-block;
+    padding: 0 20px;
+}
+
+.nav_link {
+    transition: all 03.s ease 0s;
+}
+
+.nav_link :hover {
+    color: #ffe603;
+}
+
+.hamburguerBtn{
+    background-color: #f1f3f2;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 03.s ease 0s;
+    padding: 9px 25px;
+    display: none;
+}
+
+.hamburguerBtn:hover{
+    background-color: #ffe603;
+    color: black;
+}
+
+.btn{
+    background-color: #f1f3f2;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 03.s ease 0s;
+    padding: 9px 25px;
+}
+
+.btn:hover {
+    background-color: #ffe603;
+    color: black;
+}
+
+@media screen and (max-width: 800px) {
+    .nav_link{
+        flex-direction: column;
+        height: auto;
+    }
+
+    .item-link{
+        width: 100%;
+        text-align: center;
+        margin-right: 0px;
+    }
+
+    .hamburguerBtn{
+        display: flex;
+    }
+
+}
