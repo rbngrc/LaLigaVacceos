@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from "react-router-dom";
 import { useForm } from '../../hooks/useForms';
 import { useDispatch, useSelector } from 'react-redux';
 import validator from "validator";
+import Axios from 'axios';
 
 import"../../styles/registerScreen.css"
 import { removeError, setError } from '../../actions/ui';
@@ -10,8 +11,28 @@ import { startRegisterUserPassword } from '../../actions/auth';
 
 export const RegisterScreen = () => {
 
+    const addAthlete = () => {
+        Axios.post('http://localhost:3001/create', {
+            email: email,
+            name: name,
+            nickname: nickname,
+            password: password,
+            sex: sex
+        }).then(() => {
+            setAthlete([...athlete, {
+                email: email,
+                name: name,
+                nickname: nickname,
+                password: password,
+                sex: sex,
+                competition: competition
+            }])
+        })
+    };
+
     const dispatch = useDispatch();
     const { msgError } = useSelector(state => state.ui);
+    const [athlete, setAthlete] = useState([])
 
     const [formValues, handleInputChange] = useForm({
         email: "",
@@ -19,16 +40,19 @@ export const RegisterScreen = () => {
         name: "",
         password: "",
         password2: "",
-        sex:""
+        sex:"",
+        competition: ""
 })
 
-const {email, name, nickname, password, password2, sex} = formValues;
+const {email, name, nickname, password, password2, sex, competition} = formValues;
 
 const handleRegister = (e) => {
     e.preventDefault();
 
     if (isFormValid()) {
-        dispatch( startRegisterUserPassword(email, name, nickname,password, password2, sex) );
+        dispatch( startRegisterUserPassword(email, name, nickname,password, password2, sex, competition) );
+
+        addAthlete();
     }
 }
 
@@ -47,8 +71,6 @@ const isFormValid = () => {
     dispatch(removeError())
     return true;
 }
-
-
 
   return (
     <form 
@@ -107,16 +129,16 @@ const isFormValid = () => {
                 />
             </div> 
             <div className="textbox">
-                    <select 
-                        className="textcombo"
-                        name="sex"
-                        onChange={handleInputChange}
-                    >
-                        <option>seleccione competición</option>
-                        <option>Femenina</option>
-                        <option>Masculina</option>
-                    </select>
-                </div> 
+                <select 
+                    className="textcombo"
+                    name="sex"
+                    onChange={handleInputChange}
+                >
+                    <option>Seleccione sexo</option>
+                    <option>Femenina</option>
+                    <option>Masculino</option>
+                </select>
+            </div> 
 
             {
                 msgError &&

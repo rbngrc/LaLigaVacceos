@@ -1,6 +1,6 @@
 import { types } from "../types/types";
 import { firebase } from "../firebase/firebase-config"
-import { finishLoading, startLoading } from "./ui";
+import { finishLoading, setError, startLoading } from "./ui";
 
 export const startLoginEmailPassword = (email, password) => {
     return (dispatch) => {
@@ -15,7 +15,7 @@ export const startLoginEmailPassword = (email, password) => {
         .catch ( e => {
             console.log(e);
             dispatch(finishLoading());
-            // dispatch(setError("El usuario o la contraseña son incorrectos"));
+            dispatch(setError("El usuario o la contraseña son incorrectos"));
         })
     }
 }
@@ -26,12 +26,10 @@ export const startRegisterUserPassword = (email, name, nickname, password, passw
         .then(async({user}) => {
                 await user.updateProfile({displayName: name});
                 dispatch(login(user.uid, user.displayName));
-                // dispatch(insertUsuario(email, name, nickname, password, password2, sex));
-                // dispatch(startInfoPlayer(name));
             })
             .catch ( e => {
                 console.log(e);
-                // dispatch(setError("Este usuario ya está registrado"));
+                dispatch(setError("Este usuario ya está registrado"));
             })
         }
 }

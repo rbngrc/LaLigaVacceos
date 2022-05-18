@@ -12,6 +12,9 @@ import { WomanTable } from '../components/vacceos/WomanTable';
 import { ManTable } from '../components/vacceos/ManTable';
 import { PlayerInsertData } from '../components/vacceos/PlayerInsertData';
 import { PlayerInfoScreen } from '../components/vacceos/PlayerInfoScreen';
+import { CompetitionScreen } from '../components/admin/CompetitionScreen';
+import { AthletesScreen } from '../components/admin/AthletesScreen';
+import { CreateScreen } from '../components/admin/CreateScreen';
 
 export const DashboardRoutes = () => {
   return (
@@ -26,35 +29,35 @@ export const DashboardRoutes = () => {
             />
             <Route 
                 exact path="/wod" 
-                component={WodScreen}
+                component={ WodScreen }
             />
             <Route 
                 exact path="/femenino" 
-                component={WomanTable}
+                component={ WomanTable }
             />
             <Route 
                 exact path="/masculino" 
-                component={ManTable} 
+                component={ ManTable } 
             />
             <Route 
                 exact path="/insertardatos" 
-                component={PlayerInsertData} 
+                component={ PlayerInsertData } 
             />
             <Route 
                 exact path="/perfil" 
-                component={PlayerInfoScreen} 
+                component={ PlayerInfoScreen } 
             />
             <Route
                 exact path="/competition"
-                // component={CompetitionScreen}
+                component={CompetitionScreen}
             />
             <Route
                 exact path="/athletes"
-                // component={AthletesScreen}
+                component={AthletesScreen}
             />
             <Route
-                exact path="/daily"
-                // component={DailyScreen}
+                exact path="/createWod"
+                component={CreateScreen}
             />
             <Route
                 exact path="/admin"

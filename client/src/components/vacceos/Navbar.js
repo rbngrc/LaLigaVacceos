@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { startLogout } from '../../actions/auth';
@@ -11,7 +11,7 @@ import "../../styles/navbar.css";
 export const Navbar = () => {
 
     const dispatch = useDispatch();
-    // const {name, uid} = useSelector(state => state.auth)
+    const { uid } = useSelector(state => state.auth)
 
     const handleLogout = () => {
         dispatch(startLogout());
@@ -38,38 +38,38 @@ export const Navbar = () => {
                         Media
                     </NavLink>
                     { 
-                        // (uid === "lbeH4licbFbwPVjPB9BsJo8eult1") 
-                        // ?
-                        // (
-                            // <Fragment>
-                            //     <NavLink
-                            //         activeClassName="active"
-                            //         className="item-link" 
-                            //         exact
-                            //         to="/athletes"
-                            //     >
-                            //         Atletas
-                            //     </NavLink>
-                            //     <NavLink
-                            //         activeClassName="active"
-                            //         className="item-link" 
-                            //         exact
-                            //         to="/competition"
-                            //     >
-                            //         Wod
-                            //     </NavLink>
-                            //     <NavLink
-                            //         activeClassName="active"
-                            //         className="item-link" 
-                            //         exact
-                            //         to="/daily"
-                            //     >
-                            //         Clasificaciones
-                            //     </NavLink>
-                            // </Fragment>
-                        // )
-                        // :
-                        // (
+                        (uid === "lbeH4licbFbwPVjPB9BsJo8eult1") 
+                        ?
+                        (
+                            <Fragment>
+                                <NavLink
+                                    activeClassName="active"
+                                    className="item-link" 
+                                    exact
+                                    to="/athletes"
+                                >
+                                    Atletas
+                                </NavLink>
+                                <NavLink
+                                    activeClassName="active"
+                                    className="item-link" 
+                                    exact
+                                    to="/competition"
+                                >
+                                    Competiciones
+                                </NavLink>
+                                <NavLink
+                                    activeClassName="active"
+                                    className="item-link" 
+                                    exact
+                                    to="/createWod"
+                                >
+                                    Crear Wod
+                                </NavLink>
+                            </Fragment>
+                        )
+                        :
+                        (
                             <NavLink
                                 activeClassName="active"
                                 className="item-link" 
@@ -78,7 +78,7 @@ export const Navbar = () => {
                             >
                                 Wod
                             </NavLink>
-                        // )
+                        )
                     }
                     <NavLink
                         activeClassName="active"

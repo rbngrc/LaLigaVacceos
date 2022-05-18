@@ -3,7 +3,7 @@ const app = express();
 const mysql = require('mysql');
 const cors = require('cors');
 
-use.app(cors());
+app.use(cors());
 app.use(express.json());
 
 // Datos de conexión a la base de datos
@@ -21,9 +21,10 @@ app.post('/create', (req, res) => {
     const nickname = req.body.nickname;
     const password = req.body.password;
     const sex = req.body.sex;
+    const competition = req.body.competition;
 
     db.query(
-        "INSERT INTO atletas (email, nombre, apodo, password, sex) VALUES (?, ?, ? ,? ,?)",
+        "INSERT INTO atletas (email, name, nickname, password, sex) VALUES (?, ?, ? ,? ,?)",
         [email, name, nickname, password, sex],
         (err, result) => {
             if (err) {
@@ -33,6 +34,17 @@ app.post('/create', (req, res) => {
             }
         }
     );
+});
+
+// Obtener Atletas
+app.get('/atletas', (req, res) => {
+    db.query("SELECT * FROM atletas", (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(result)
+        }
+    })
 });
 
 // // GET obtener datos de la tabla
@@ -61,18 +73,18 @@ app.post('/create', (req, res) => {
 //     });
 // });
 
-// // DELETE borrar datos de la tabla
-// app.delete('/delete/:id', (req, res) => {
-//     const id = req.params.id;
-//     db.query("DELETE FROM tabla WHERE id = ?", id, 
-//     (err, result) => {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             res.send(result);
-//         }
-//     });
-// });
+// DELETE borrar datos de la tabla
+app.delete('/delete/:email', (req, res) => {
+    const email = req.params.email;
+    db.query("DELETE FROM atletas WHERE email = ?", email, 
+    (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
+});
 
 // // Llamada de comprobación de usuario
 // app.get('/atletas', (req, res) => {
