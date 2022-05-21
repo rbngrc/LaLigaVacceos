@@ -51,7 +51,6 @@ const handleRegister = (e) => {
 
     if (isFormValid()) {
         dispatch( startRegisterUserPassword(email, name, nickname,password, password2, sex, competition) );
-
         addAthlete();
     }
 }

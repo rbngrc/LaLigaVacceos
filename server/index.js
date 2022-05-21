@@ -36,9 +36,27 @@ app.post('/create', (req, res) => {
     );
 });
 
+// POST insertar datos en tabla
+app.post('/createCompetition', (req, res) => {
+    const name = req.body.name;
+    const date = req.body.date;
+
+    db.query(
+        "INSERT INTO competiciones (name, date) VALUES (?, ?)",
+        [name, date],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Values Inserted");
+            }
+        }
+    );
+});
+
 // Obtener Atletas
 app.get('/atletas', (req, res) => {
-    db.query("SELECT * FROM atletas", (err, result) => {
+    db.query("SELECT * FROM atletas ORDER BY name", (err, result) => {
         if (err) {
             console.log(err)
         } else {
@@ -47,16 +65,16 @@ app.get('/atletas', (req, res) => {
     })
 });
 
-// // GET obtener datos de la tabla
-// app.get('/tabla', (req, res) => {
-//     db.query("SELECT * FROM tabla", (err, result) => {
-//         if (err) {
-//             console.log(err)
-//         } else {
-//             res.send(result)
-//         }
-//     })
-// });
+// Obtener Competiciones
+app.get('/competiciones', (req, res) => {
+    db.query("SELECT * FROM competiciones ORDER BY date", (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(result)
+        }
+    })
+});
 
 // // UPDATE actualizar los datos de la tabla
 // app.put('/update', (req, res) => {
@@ -77,6 +95,19 @@ app.get('/atletas', (req, res) => {
 app.delete('/delete/:email', (req, res) => {
     const email = req.params.email;
     db.query("DELETE FROM atletas WHERE email = ?", email, 
+    (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+// DELETE borrar competiciones
+app.delete('/deleteCompetition/:name', (req, res) => {
+    const name = req.params.name;
+    db.query("DELETE FROM competiciones WHERE name = ?", name, 
     (err, result) => {
         if (err) {
             console.log(err);

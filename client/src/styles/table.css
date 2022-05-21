@@ -1,0 +1,73 @@
+@font-face {
+    font-family: "UniversalTSD";
+    src: url("../assets/UniversLTStd-UltraCn.otf") format("truetype");
+}
+
+@font-face {
+    font-family: "Homestead";
+    src: url("../assets/homestead-display.ttf") format("truetype");
+}
+
+* {
+    box-sizing: border-box;
+}
+
+table {
+    background-color: #f1f3f2;
+    /* border: 1px solid #ffe603; */
+    border-collapse: collapse;
+    border-radius: 10px;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2);
+    font-size: 30px;
+    margin: auto;
+    max-width: 900px;
+    overflow: auto;
+    padding: 15px;
+    width: 100%;
+    white-space: nowrap;
+    margin-bottom: 50px;
+}
+
+thead th, td {
+    border-bottom: 1px solid #f1f3f2;
+    text-align: left;
+    padding: 12px;
+}
+
+.header {
+    background-color: #f1f3f2;
+    color: #ffe603;
+    font-family: Homestead;
+}
+
+.table_entry {
+    position: relative;
+    font-family: UniversalTSD;
+    font-size: 30px;
+    margin: auto;
+    max-width: 900px;
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.table_entry:hover {
+    background-color: #ffe603;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transform: scale(1.02);
+}
+
+.nickname {
+    font-family: UniversalTSD;
+    font-size: 20px;
+}
+
+.nickname:hover {
+    color: #ffe603;
+}
+
+.table_imagen {
+    height: 60px;
+    width: 50px;
+}
