@@ -56,7 +56,7 @@ app.post('/createCompetition', (req, res) => {
 
 app.post('/createCompetition/:name', (req, res) => {
     const name = req.body.name;
-    db.query("CREATE TABLE ?? (PersonID INT UNSIGNED NOT NULL PRIMARY KEY)", [name], (err, result) => {
+    db.query("CREATE TABLE ?? (name VARCHAR(66) PRIMARY KEY, nickname VARCHAR(66), total VARCHAR(66))", [name], (err, result) => {
         if (err) {
             console.log(err);
         } else {
