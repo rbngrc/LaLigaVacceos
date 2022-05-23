@@ -1,93 +1,82 @@
-import React from 'react'
+import React from 'react';
+import { useState } from "react";
+import Axios from 'axios';
 
 export const CreateScreen = () => {
+
+    const [competitionList, setCompetitionList] = useState([]);
+    const [wodsList, setWodsList] = useState([]);
+
+    const getCompetitions = () => {
+        Axios.get('http://localhost:3001/competiciones').then((response) => {
+          setCompetitionList(response.data)
+          })
+    }
+
+    const getWods = (name) => {
+        Axios.get(`https://localhost:3001/wods/${name}`).then((response) => {
+            setWodsList(wodsList.filter((val) => {
+                return val.name !== name;
+            }))
+        })
+    }
+
+    getCompetitions();
+
     return (
-        <div className="data-card">
-            <div className="wod-title">
-                <h1>Nuevo Wod</h1>
-                <hr/>
-            </div>
-            <div>
-                {/* <form onSubmit={handleAddData} id="form-marca"> */}
-                <form id="form-marca">
-                    <div className="form-group">
-                        {/* <label>Fecha</label> */}
-                        <input 
-                            type="date" 
-                            min="2021-10-01" 
-                            max="2022-06-31" 
-                            name="date"
-                            // onChange={handleInputChange}
+        <table>
+          <thead className="header">
+          <div className="textbox">
+            {
+              competitionList.map((val, key) => {
+                return (
+                    <button onClick={()=>{getWods(val.name)}}>{val.name}</button>
+                )
+              })
+            } 
+            </div> 
+              <tr>
+                  <th>Nombre del wod</th>
+                  <th>WOD</th>
+                  <th>Accion</th>
+              </tr>
+          </thead>
+          <tbody>
+          <tr>
+              <td>
+                <div className="textbox">
+                    <input 
+                        type="text" 
+                        placeholder="Nombre de la competición"
+                        name="name"
+                        autoComplete="off"
                         />
-                    </div>
-                    <div className="form-group">
-                        {/* <label>Rondas</label> */}
-                        <input 
-                            type="number" 
-                            name="rounds" 
-                            className="form-control" 
-                            id="exampleFormControlInput1" 
-                            placeholder="Rondas"
-                            // onChange={handleInputChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        {/* <label>Repeticiones</label> */}
-                        <input 
-                            type="number" 
-                            name="reps" 
-                            className="form-control" 
-                            id="exampleFormControlInput1" 
-                            placeholder="Repeticiones"
-                            // onChange={handleInputChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        {/* <label>Minutos</label> */}
-                        <input 
-                            type="number" 
-                            name="min" 
-                            min="0" 
-                            max="60" 
-                            className="form-control" 
-                            id="exampleFormControlInput1" 
-                            placeholder="Minutos"
-                            // onChange={handleInputChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        {/* <label>Segundos</label> */}
-                        <input 
-                            type="number" 
-                            name="sec" 
-                            min="0" 
-                            max="59" 
-                            className="form-control" 
-                            id="exampleFormControlInput1" 
-                            placeholder="Segundos"
-                            // onChange={handleInputChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        {/* <label>Peso</label> */}
-                        <input 
-                            type="number" 
-                            name="weight" 
-                            className="form-control" 
-                            id="exampleFormControlInput1" 
-                            placeholder="Kilogramos" 
-                            // onChange={handleInputChange}
-                        />
-                    </div>
-                        <button 
-                            type="submit" 
-                            className="btn btn-primary my-1" 
-                            id="btnMarca"
-                        >
-                            Subir Marca
-                        </button>
-                </form>
-            </div>
-        </div>
+                </div>
+              </td>
+              <td>
+                <div className="textbox">
+                  <input 
+                    type="date" 
+                    min="" 
+                    max="" 
+                    name="date"
+                    />
+                </div>
+              </td>
+              {/* <td><button onClick={()=>{addCompetition()}}>Nueva</button></td> */}
+            </tr>
+            {
+              competitionList.map((val, key) => {
+                return (
+                  <tr>
+                      <td>{val.name}</td>
+                      {/* <button>{val.date}</button> */}
+                      {/* <td><button onClick={()=>{deleteCompetition(val.name)}}>Eliminar</button></td> */}
+                  </tr>
+                )
+              })
+            }  
+          </tbody>
+        </table>
     )
 }

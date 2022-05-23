@@ -32,6 +32,7 @@ thead th, td {
     border-bottom: 1px solid #f1f3f2;
     text-align: left;
     padding: 12px;
+    font-family: UniversalTSD;
 }
 
 .header {

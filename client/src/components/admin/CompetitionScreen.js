@@ -18,6 +18,14 @@ export const CompetitionScreen = () => {
           date: date,
         }])
     })
+
+    Axios.post(`http://localhost:3001/createCompetition/${name}`, {
+        name: name,
+    }).then(() => {
+        setCompetitionList([...competitionList, {
+          name: name,
+        }])
+    })
   };
 
   const getCompetitions = () => {
@@ -28,6 +36,12 @@ export const CompetitionScreen = () => {
 
   const deleteCompetition = (name) => {
       Axios.delete(`http://localhost:3001/deleteCompetition/${name}`).then((response) => {
+        setCompetitionList(competitionList.filter((val) => {
+          return val.name !== name
+          }));
+      });
+
+      Axios.delete(`http://localhost:3001/dropTable/${name}`).then((response) => {
         setCompetitionList(competitionList.filter((val) => {
           return val.name !== name
           }));

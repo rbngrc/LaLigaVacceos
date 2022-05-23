@@ -6,7 +6,7 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
-// Datos de conexión a la base de datos
+// datos de conexión a la base de datos
 const db = mysql.createConnection({
     user: 'root',
     host: 'localhost',
@@ -14,7 +14,8 @@ const db = mysql.createConnection({
     database: 'vacceos_championships'
 });
 
-// POST insertar datos en tabla
+/*************** POST ***************/ 
+// insertar datos en tabla atleta
 app.post('/create', (req, res) => {
     const email = req.body.email;
     const name = req.body.name;
@@ -36,13 +37,12 @@ app.post('/create', (req, res) => {
     );
 });
 
-// POST insertar datos en tabla
+// insertar datos en tabla competiciones
 app.post('/createCompetition', (req, res) => {
     const name = req.body.name;
     const date = req.body.date;
 
-    db.query(
-        "INSERT INTO competiciones (name, date) VALUES (?, ?)",
+    db.query("INSERT INTO competiciones (name, date) VALUES (?, ?)",
         [name, date],
         (err, result) => {
             if (err) {
@@ -54,8 +54,21 @@ app.post('/createCompetition', (req, res) => {
     );
 });
 
-// Obtener Atletas
+app.post('/createCompetition/:name', (req, res) => {
+    const name = req.body.name;
+    db.query("CREATE TABLE ?? (PersonID INT UNSIGNED NOT NULL PRIMARY KEY)", [name], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result)
+        }
+    })
+});
+
+/*************** GET ***************/ 
+// obtener atletas tabla atletas
 app.get('/atletas', (req, res) => {
+
     db.query("SELECT * FROM atletas ORDER BY name", (err, result) => {
         if (err) {
             console.log(err)
@@ -65,7 +78,7 @@ app.get('/atletas', (req, res) => {
     })
 });
 
-// Obtener Competiciones
+// obtener Competiciones tabla competiciones
 app.get('/competiciones', (req, res) => {
     db.query("SELECT * FROM competiciones ORDER BY date", (err, result) => {
         if (err) {
@@ -76,7 +89,23 @@ app.get('/competiciones', (req, res) => {
     })
 });
 
-// // UPDATE actualizar los datos de la tabla
+// obtener wods segun tabla solicitada $name
+app.get('/wods/:name', (req, res) => {
+    const name = req.params.name
+
+    db.query("SELECT * FROM ??", 
+    [name], 
+    (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(result)
+        }
+    })
+});
+
+/*************** UPDATE ***************/ 
+// actualizar los datos de la tabla
 // app.put('/update', (req, res) => {
 //     const id = req.params.id;
 //     const dato = req.params.dato;
@@ -91,9 +120,11 @@ app.get('/competiciones', (req, res) => {
 //     });
 // });
 
-// DELETE borrar datos de la tabla
+/*************** DELETE ***************/ 
+// borrar datos de atleta por email en tabla atletas
 app.delete('/delete/:email', (req, res) => {
     const email = req.params.email;
+
     db.query("DELETE FROM atletas WHERE email = ?", email, 
     (err, result) => {
         if (err) {
@@ -104,9 +135,10 @@ app.delete('/delete/:email', (req, res) => {
     });
 });
 
-// DELETE borrar competiciones
+// borrar competicion segun nombre en tabla competiciones
 app.delete('/deleteCompetition/:name', (req, res) => {
     const name = req.params.name;
+
     db.query("DELETE FROM competiciones WHERE name = ?", name, 
     (err, result) => {
         if (err) {
@@ -117,16 +149,18 @@ app.delete('/deleteCompetition/:name', (req, res) => {
     });
 });
 
-// // Llamada de comprobación de usuario
-// app.get('/atletas', (req, res) => {
-//     db.query("SELECT * FROM atletas", (err, result) => {
-//         if (err) {
-//             console.log(err)
-//         } else {
-//             res.send(result)
-//         }
-//     })
-// });
+app.delete('/dropTable/:name', (req, res) => {
+    const name = req.params.name;
+
+    db.query("DROP TABLE ?? ", name,
+    (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
+});
 
 app.listen(3001, () => {
     console.log("Server up & running")
