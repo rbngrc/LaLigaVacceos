@@ -5,9 +5,6 @@ import { useForm } from '../../hooks/useForms';
 import '../../styles/insertData.css';
 
 export const PlayerInsertData = () => {
-
-  // const dispatch = useDispatch()
-  // const {active} = useSelector(state => state.players);
   
   const [formValues, handleInputChange] = useForm({
       date: "",
@@ -36,7 +33,6 @@ export const PlayerInsertData = () => {
             <div>
                 <form onSubmit={handleAddData} id="form-marca">
                     <div className="form-group">
-                        {/* <label>Fecha</label> */}
                         <input 
                             type="date" 
                             min="2021-10-01" 
@@ -46,7 +42,6 @@ export const PlayerInsertData = () => {
                         />
                     </div>
                     <div className="form-group">
-                        {/* <label>Rondas</label> */}
                         <input 
                             type="number" 
                             name="rounds" 
@@ -57,7 +52,6 @@ export const PlayerInsertData = () => {
                         />
                     </div>
                     <div className="form-group">
-                        {/* <label>Repeticiones</label> */}
                         <input 
                             type="number" 
                             name="reps" 
@@ -68,7 +62,6 @@ export const PlayerInsertData = () => {
                         />
                     </div>
                     <div className="form-group">
-                        {/* <label>Minutos</label> */}
                         <input 
                             type="number" 
                             name="min" 
@@ -81,7 +74,6 @@ export const PlayerInsertData = () => {
                         />
                     </div>
                     <div className="form-group">
-                        {/* <label>Segundos</label> */}
                         <input 
                             type="number" 
                             name="sec" 
@@ -94,7 +86,6 @@ export const PlayerInsertData = () => {
                         />
                     </div>
                     <div className="form-group">
-                        {/* <label>Peso</label> */}
                         <input 
                             type="number" 
                             name="weight" 

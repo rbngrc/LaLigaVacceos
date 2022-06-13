@@ -54,9 +54,24 @@ app.post('/createCompetition', (req, res) => {
     );
 });
 
+// crea tabla de la liga con el nombre deseado
 app.post('/createCompetition/:name', (req, res) => {
     const name = req.body.name;
     db.query("CREATE TABLE ?? (name VARCHAR(66) PRIMARY KEY, nickname VARCHAR(66), total VARCHAR(66))", [name], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result)
+        }
+    })
+});
+
+// crear columna en la tabla de la liga con el nombre deseado y columna con el nombre deseado
+app.post('/createWod/:name', (req, res) => {
+    const name = req.body.name;
+    const wodName = req.body.wodName;
+
+    db.query("ALTER TABLE ?? ADD prueba VARCHAR(255)", [name, wodName], (err, result) => {
         if (err) {
             console.log(err);
         } else {
@@ -70,6 +85,19 @@ app.post('/createCompetition/:name', (req, res) => {
 app.get('/atletas', (req, res) => {
 
     db.query("SELECT * FROM atletas ORDER BY name", (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(result)
+        }
+    })
+});
+
+app.get('/atletas/:name', (req, res) => {
+    const name = req.params.name;
+
+    db.query("SELECT * FROM atletas WHERE name = ?", name,
+     (err, result) => {
         if (err) {
             console.log(err)
         } else {

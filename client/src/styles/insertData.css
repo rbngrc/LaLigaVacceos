@@ -13,6 +13,17 @@
     flex-direction: column;
 }
 
+.info-box label {
+    font-family: UniversalTSD;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 18px;
+    width: 80%;
+    float: left;
+    margin: 0 10px;
+}
+
 #form-marca {
     background: none;
 }

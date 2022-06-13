@@ -6,6 +6,8 @@ export const CreateScreen = () => {
 
     const [competitionList, setCompetitionList] = useState([]);
     const [wodsList, setWodsList] = useState([]);
+    const [compName, setCompName] = useState("");
+
 
     const getCompetitions = () => {
         Axios.get('http://localhost:3001/competiciones').then((response) => {
@@ -20,6 +22,17 @@ export const CreateScreen = () => {
             }))
         })
     }
+    const addWod = (name, wodName) => {
+      Axios.post(`http://localhost:3001/createWod/${name}/${wodName}`, {
+        name: name,
+        wodName: wodName
+        }).then(() => {
+          setCompetitionList([...competitionList, {
+            name: name,
+        }])
+    })
+  }
+    
 
     getCompetitions();
 
@@ -27,13 +40,23 @@ export const CreateScreen = () => {
         <table>
           <thead className="header">
           <div className="textbox">
-            {
-              competitionList.map((val, key) => {
-                return (
-                    <button onClick={()=>{getWods(val.name)}}>{val.name}</button>
-                )
-              })
-            } 
+                <input type="text"/>
+                <select 
+                    className="textcombo"
+                    name="competition"
+                >
+                {
+                    competitionList.map((val, key) => {
+                        return (
+                            <option
+                            onChange={(event) => {
+                              setCompName(event.target.value);
+                            }}
+                            >{val.name}</option>
+                        )
+                    })
+                }
+                </select>
             </div> 
               <tr>
                   <th>Nombre del wod</th>
@@ -47,30 +70,29 @@ export const CreateScreen = () => {
                 <div className="textbox">
                     <input 
                         type="text" 
-                        placeholder="Nombre de la competición"
+                        placeholder="Nombre del wod"
                         name="name"
                         autoComplete="off"
                         />
                 </div>
               </td>
               <td>
-                <div className="textbox">
-                  <input 
-                    type="date" 
-                    min="" 
-                    max="" 
-                    name="date"
-                    />
+              <div className="textbox">
+                    <textarea 
+                        type="text" 
+                        placeholder="WOD"
+                        name="wod"
+                        autoComplete="off"
+                        />
                 </div>
               </td>
-              {/* <td><button onClick={()=>{addCompetition()}}>Nueva</button></td> */}
+              <td><button onClick={()=>{addWod()}}>Nuevo</button></td>
             </tr>
             {
-              competitionList.map((val, key) => {
+              wodsList.map((val, key) => {
                 return (
                   <tr>
                       <td>{val.name}</td>
-                      {/* <button>{val.date}</button> */}
                       {/* <td><button onClick={()=>{deleteCompetition(val.name)}}>Eliminar</button></td> */}
                   </tr>
                 )

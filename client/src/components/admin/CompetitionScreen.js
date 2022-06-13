@@ -28,6 +28,8 @@ export const CompetitionScreen = () => {
     })
   };
 
+    
+
   const getCompetitions = () => {
       Axios.get('http://localhost:3001/competiciones').then((response) => {
         setCompetitionList(response.data)
