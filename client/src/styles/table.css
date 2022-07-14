@@ -14,7 +14,7 @@
 
 table {
     background-color: #f1f3f2;
-    /* border: 1px solid #ffe603; */
+    /* border: 1px solid #e7799d; */
     border-collapse: collapse;
     border-radius: 10px;
     box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2);
@@ -37,7 +37,7 @@ thead th, td {
 
 .header {
     background-color: #f1f3f2;
-    color: #ffe603;
+    color: #e7799d;
     font-family: Homestead;
 }
 
@@ -53,7 +53,7 @@ thead th, td {
 }
 
 .table_entry:hover {
-    background-color: #ffe603;
+    background-color: #e7799d;
     box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     transform: scale(1.02);
@@ -65,10 +65,27 @@ thead th, td {
 }
 
 .nickname:hover {
-    color: #ffe603;
+    color: #e7799d;
 }
 
 .table_imagen {
     height: 60px;
     width: 50px;
+}
+
+.btn{
+    font-family: Homestead;
+    font-size: 16px;
+    background-color: #f1f3f2;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 03.s ease 0s;
+    padding: 9px 25px;
+    /* margin-top: 50px; */
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #e7799d;
 }

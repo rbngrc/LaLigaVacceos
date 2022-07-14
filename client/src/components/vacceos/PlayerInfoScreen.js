@@ -88,8 +88,8 @@ export const PlayerInfoScreen = () => {
                     name="sex"
                 >
                     {/* <option>{sex}</option> */}
-                    <option>Femenina</option>
-                    <option>Masculina</option>
+                    <option>Femenino</option>
+                    <option>Masculino</option>
                 </select>
             </div> 
             <div className="textbox">

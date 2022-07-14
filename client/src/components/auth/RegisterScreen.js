@@ -134,7 +134,7 @@ const isFormValid = () => {
                     onChange={handleInputChange}
                 >
                     <option>Seleccione sexo</option>
-                    <option>Femenina</option>
+                    <option>Femenino</option>
                     <option>Masculino</option>
                 </select>
             </div> 

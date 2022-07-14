@@ -20,7 +20,7 @@
 
 .card {
     box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2);
-    border: 1px solid #ffe603;
+    border: 1px solid #e7799d;
     padding: 0 20px;
     margin: 0 20px;
     width: calc(33% - 20px);

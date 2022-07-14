@@ -20,7 +20,7 @@
     float: left;
     font-family: Homestead;
     font-size: 40px;
-    border-bottom: 6px solid #ffe603;
+    border-bottom: 6px solid #e7799d;
     margin-bottom: 20px;
     padding: 13px 0;
 }
@@ -31,7 +31,7 @@
     font-size: 20px;
     padding: 8px 0;
     margin: 8px 0;
-    border-bottom: 1px solid #ffe603;
+    border-bottom: 1px solid #e7799d;
 }
 
 .textbox input{
@@ -60,7 +60,7 @@
 }
 
 .btn:hover {
-    background-color: #ffe603;
+    background-color: #e7799d;
 }
 
 .textcombo {
@@ -82,7 +82,7 @@
 }
 
 .textcombo:hover {
-    color: #ffe603;
+    color: #e7799d;
 }
 
 .alert-error {

@@ -87,7 +87,7 @@ export const CompetitionScreen = () => {
                   }}/>
               </div>
             </td>
-            <td><button onClick={()=>{addCompetition()}}>Nueva</button></td>
+            <td><button className="btn" onClick={()=>{addCompetition()}}>Nueva</button></td>
           </tr>
           {
             competitionList.map((val, key) => {
@@ -95,7 +95,7 @@ export const CompetitionScreen = () => {
                 <tr>
                     <td>{val.name}</td>
                     <td>{val.date}</td>
-                    <td><button onClick={()=>{deleteCompetition(val.name)}}>Eliminar</button></td>
+                    <td><button className="btn" onClick={()=>{deleteCompetition(val.name)}}>Eliminar</button></td>
                 </tr>
               )
             })

@@ -12,7 +12,7 @@
     display: flex;
     flex-direction: column;
     box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2);
-    border: 1px solid #ffe603;
+    border: 1px solid #e7799d;
     padding: 0 20px;
     margin: 0 20px;
     max-height: 500px;
@@ -29,7 +29,7 @@
 .wod-title {
     font-family: Homestead;
     background: none;
-    color: #ffe603;
+    color: #e7799d;
     font-size: 1.5vw;
     margin-bottom: 20px;
     padding-top: 20px;

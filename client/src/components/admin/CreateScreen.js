@@ -86,7 +86,7 @@ export const CreateScreen = () => {
                         />
                 </div>
               </td>
-              <td><button onClick={()=>{addWod()}}>Nuevo</button></td>
+              <td><button className="btn" onClick={()=>{addWod()}}>Nuevo</button></td>
             </tr>
             {
               wodsList.map((val, key) => {
