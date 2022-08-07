@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const cors = require('cors');
 
 app.use(cors());
@@ -25,8 +25,8 @@ app.post('/create', (req, res) => {
     const competition = req.body.competition;
 
     db.query(
-        "INSERT INTO atletas (email, name, nickname, password, sex) VALUES (?, ?, ? ,? ,?)",
-        [email, name, nickname, password, sex],
+        "INSERT INTO `atletas` (`email`, `name`, `nickname`, `password`, `sex`, `competition`) VALUES (?, ?, ?, ?, ?, ?)",
+        [email, name, nickname, password, sex, competition],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -93,10 +93,22 @@ app.get('/atletas', (req, res) => {
     })
 });
 
-app.get('/atletas/:name', (req, res) => {
-    const name = req.params.name;
+app.get('http://localhost:3001/atletasFemeninos', (req, res) => {
 
-    db.query("SELECT * FROM atletas WHERE name = ?", name,
+    db.query("SELECT * FROM atletas ORDER BY name WHERE sex = Femenino", (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(result)
+        }
+    })
+});
+
+app.get('/atletas/:passwordDoble', (req, res) => {
+    const passwordDoble = req.params.passwordDoble;
+    console.log(passwordDoble)
+    db.query("SELECT * FROM atletas WHERE password = ?", 
+    [passwordDoble],
      (err, result) => {
         if (err) {
             console.log(err)

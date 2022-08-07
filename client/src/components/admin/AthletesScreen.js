@@ -51,7 +51,7 @@ export const AthletesScreen = () => {
         {
           athleteList.map((val, key) => {
             return (
-              <tr>
+              <tr key={val.email}>
                   <td>{val.name}</td>
                   <td>{val.nickname}</td>
                   <td>{val.email}</td>

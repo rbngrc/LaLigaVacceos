@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useState } from "react";
 import Axios from 'axios';
 
@@ -37,27 +37,30 @@ export const CreateScreen = () => {
     getCompetitions();
 
     return (
+      <Fragment>
+      <div className="textbox">
+        <input type="text"/>
+        <select 
+            className="textcombo"
+            name="competition"
+        >
+        {
+            competitionList.map((val, key) => {
+                return (
+                    <option
+                    onChange={(event) => {
+                      setCompName(event.target.value);
+                    }}
+                    key={val.name}
+                    >{val.name}</option>
+                )
+            })
+        }
+        </select>
+      </div> 
         <table>
           <thead className="header">
-          <div className="textbox">
-                <input type="text"/>
-                <select 
-                    className="textcombo"
-                    name="competition"
-                >
-                {
-                    competitionList.map((val, key) => {
-                        return (
-                            <option
-                            onChange={(event) => {
-                              setCompName(event.target.value);
-                            }}
-                            >{val.name}</option>
-                        )
-                    })
-                }
-                </select>
-            </div> 
+
               <tr>
                   <th>Nombre del wod</th>
                   <th>WOD</th>
@@ -67,31 +70,27 @@ export const CreateScreen = () => {
           <tbody>
           <tr>
               <td>
-                <div className="textbox">
-                    <input 
-                        type="text" 
-                        placeholder="Nombre del wod"
-                        name="name"
-                        autoComplete="off"
-                        />
-                </div>
+                <input 
+                    type="text" 
+                    placeholder="Nombre del wod"
+                    name="name"
+                    autoComplete="off"
+                />
               </td>
               <td>
-              <div className="textbox">
-                    <textarea 
-                        type="text" 
-                        placeholder="WOD"
-                        name="wod"
-                        autoComplete="off"
-                        />
-                </div>
+                <textarea 
+                    type="text" 
+                    placeholder="WOD"
+                    name="wod"
+                    autoComplete="off"
+                />
               </td>
               <td><button className="btn" onClick={()=>{addWod()}}>Nuevo</button></td>
             </tr>
             {
               wodsList.map((val, key) => {
                 return (
-                  <tr>
+                  <tr key={val.name}>
                       <td>{val.name}</td>
                       {/* <td><button onClick={()=>{deleteCompetition(val.name)}}>Eliminar</button></td> */}
                   </tr>
@@ -100,5 +99,6 @@ export const CreateScreen = () => {
             }  
           </tbody>
         </table>
+        </Fragment>
     )
 }

@@ -92,7 +92,7 @@ export const CompetitionScreen = () => {
           {
             competitionList.map((val, key) => {
               return (
-                <tr>
+                <tr key={val.name}>
                     <td>{val.name}</td>
                     <td>{val.date}</td>
                     <td><button className="btn" onClick={()=>{deleteCompetition(val.name)}}>Eliminar</button></td>

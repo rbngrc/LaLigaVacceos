@@ -17,7 +17,8 @@ export const RegisterScreen = () => {
             name: name,
             nickname: nickname,
             password: password,
-            sex: sex
+            sex: sex,
+            competition: competition
         }).then(() => {
             setAthlete([...athlete, {
                 email: email,
