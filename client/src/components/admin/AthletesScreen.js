@@ -9,16 +9,18 @@ import '../../styles/table.css';
 
 export const AthletesScreen = () => {
 
+  const url = "http://localhost:3001/"
+
   const [athleteList, setAthleteList] = useState([]);
 
     const getAthletes = () => {
-        Axios.get('http://localhost:3001/atletas').then((response) => {
+        Axios.get(url + 'atletas').then((response) => {
           setAthleteList(response.data)
           })
     }
 
         const deleteAthlete = (email) => {
-        Axios.delete(`http://localhost:3001/delete/${email}`).then((response) => {
+        Axios.delete(url + `delete/${email}`).then((response) => {
           setAthleteList(athleteList.filter((val) => {
             return val.email !== email
             }));

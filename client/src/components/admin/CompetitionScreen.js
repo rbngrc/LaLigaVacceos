@@ -4,12 +4,14 @@ import Axios from 'axios';
 
 export const CompetitionScreen = () => {
 
+  const url = "http://localhost:3001/"
+
   const [competitionList, setCompetitionList] = useState([]);
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
 
   const addCompetition = () => {
-    Axios.post('http://localhost:3001/createCompetition', {
+    Axios.post(url + 'createCompetition', {
         name: name,
         date: date,
     }).then(() => {
@@ -19,7 +21,7 @@ export const CompetitionScreen = () => {
         }])
     })
 
-    Axios.post(`http://localhost:3001/createCompetition/${name}`, {
+    Axios.post(url + `createCompetition/${name}`, {
         name: name,
     }).then(() => {
         setCompetitionList([...competitionList, {
@@ -31,19 +33,19 @@ export const CompetitionScreen = () => {
     
 
   const getCompetitions = () => {
-      Axios.get('http://localhost:3001/competiciones').then((response) => {
+      Axios.get(url + 'competiciones').then((response) => {
         setCompetitionList(response.data)
         })
   }
 
   const deleteCompetition = (name) => {
-      Axios.delete(`http://localhost:3001/deleteCompetition/${name}`).then((response) => {
+      Axios.delete(url + `deleteCompetition/${name}`).then((response) => {
         setCompetitionList(competitionList.filter((val) => {
           return val.name !== name
           }));
       });
 
-      Axios.delete(`http://localhost:3001/dropTable/${name}`).then((response) => {
+      Axios.delete(url + `dropTable/${name}`).then((response) => {
         setCompetitionList(competitionList.filter((val) => {
           return val.name !== name
           }));

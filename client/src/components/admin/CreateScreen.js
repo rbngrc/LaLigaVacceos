@@ -4,26 +4,28 @@ import Axios from 'axios';
 
 export const CreateScreen = () => {
 
+    const url = "http://localhost:3001/"
+
     const [competitionList, setCompetitionList] = useState([]);
     const [wodsList, setWodsList] = useState([]);
     const [compName, setCompName] = useState("");
 
 
     const getCompetitions = () => {
-        Axios.get('http://localhost:3001/competiciones').then((response) => {
+        Axios.get(url + 'competiciones').then((response) => {
           setCompetitionList(response.data)
           })
     }
 
     const getWods = (name) => {
-        Axios.get(`https://localhost:3001/wods/${name}`).then((response) => {
+        Axios.get(url + `wods/${name}`).then((response) => {
             setWodsList(wodsList.filter((val) => {
                 return val.name !== name;
             }))
         })
     }
     const addWod = (name, wodName) => {
-      Axios.post(`http://localhost:3001/createWod/${name}/${wodName}`, {
+      Axios.post(url + `createWod/${name}/${wodName}`, {
         name: name,
         wodName: wodName
         }).then(() => {

@@ -104,11 +104,11 @@ app.get('http://localhost:3001/atletasFemeninos', (req, res) => {
     })
 });
 
-app.get('/atletas/:passwordDoble', (req, res) => {
-    const passwordDoble = req.params.passwordDoble;
-    console.log(passwordDoble)
-    db.query("SELECT * FROM atletas WHERE password = ?", 
-    [passwordDoble],
+app.get('/atletas/:name', (req, res) => {
+    const name = req.params.name;
+    console.log(name)
+    db.query("SELECT * FROM atletas WHERE name = ?", 
+    [name],
      (err, result) => {
         if (err) {
             console.log(err)

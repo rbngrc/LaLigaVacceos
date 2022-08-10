@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from '../../hooks/useForms';
@@ -10,29 +10,42 @@ import { removeError, setError } from '../../actions/ui';
 
 export const PlayerInfoScreen = () => {
 
+    const url = "http://localhost:3001/"
+
     const { name } = useSelector(state => state.auth);
     const [competitionList, setCompetitionList] = useState([]);
-    const [athleteList, setAthleteList] = useState([]);
+    const [athletes, setAthlete] = useState([]);
     // const [competitionName, setName] = useState("");
 
-    const getAthletes = (name) => {
-        Axios.get('http://localhost:3001/atletas/'+ name).then((response) => {
-            setAthleteList(response.data);
-          })
-    }
+    // const getAthletes = (name) => {
+    //     Axios.get(url + 'atletas/'+ name).then((response) => {
+    //         setAthlete(response.data);
+    //       })
+    //       .catch((error) => console.log("Error"))
+    // }
+
+    useEffect(() => {
+        const getAthletes = async (name) => {
+            const {data:res} = await Axios.get(url + 'atletas/' + name);
+                setAthlete(res);
+              };
+              getAthletes(name);
+        }, []);
 
     const getCompetitions = () => {
-        Axios.get('http://localhost:3001/competiciones').then((response) => {
+        Axios.get(url + 'competiciones').then((response) => {
           setCompetitionList(response.data)
           })
     }
 
     getCompetitions();
 
-    const showdata = (e) => {
+    const updateDatos = (e) => {
         e.preventDefault();
-            getAthletes(name);
+        console.log("Datos guardados")
     }
+
+    
 
   return (
     <div className="data-card">
@@ -40,132 +53,126 @@ export const PlayerInfoScreen = () => {
             <h1>Datos personales</h1>
             <hr/>
         </div>
-
-            <form 
-                className="info-box"
-                onSubmit={showdata}
-            >
-                <button 
-                    className="btn" 
-                    id="btn-info"
-                    type="submit"
-                >
-                    Mostrar
-                </button>
-            </form>
         <div>
         {
-            athleteList.map((val, key) => {
-                console.log(val.name)
+            athletes.map(athlete => {
+                // TODO console.log(athlete.name + " form") OJO BUCLE 
                 return(
-                    <form 
-                        className="info-box"
-                        // onSubmit={handleInputChange}
-                        key={val.name}
-                    >
-                        <div className="textbox">
-                            <label>Nombre</label>
-                            <input 
-                                type="text" 
-                                placeholder="Nombre" 
-                                name="name" 
-                                autoComplete="off"
-                                required
-                                // value={name}
-                            />
-                        </div>
-                        <div className="textbox">
-                            <label>Email</label>
-                            <input 
-                                type="text" 
-                                placeholder="Email" 
-                                name="email" 
-                                autoComplete="off"
-                                required
-                                //value={val.email}
-                            />
-                        </div>
-                        <div className="textbox">
-                            <label>Apodo</label>
-                            <input 
-                                type="text" 
-                                placeholder="Apodo" 
-                                name="nickname" 
-                                autoComplete="off"
-                                required
-                                // value={nickname}
-                            />
-                        </div>
-                        <div className="textbox">
-                            <label>Contraseña</label>
-                            <input 
-                                type="password" 
-                                placeholder="Contraseña" 
-                                name="password" 
-                                autoComplete="off"
-                                required
-                                // value={password}
-                            />
-                        </div>
-                        <div className="textbox">
-                            <label>Repita la contraseña</label>
-                            <input 
-                                type="password" 
-                                placeholder="Repita la contraseña" 
-                                name="password2" 
-                                autoComplete="off"
-                                required
-                                // value={password2}
-                            />
-                        </div> 
-                        <div className="textbox">
-                            <input type="text"/>
-                            <label>Seleccione su sexo</label>
-                            <select 
-                                className="textcombo"
-                                name="sex"
-                            >
-                                {/* <option>{sex}</option> */}
-                                <option>Femenino</option>
-                                <option>Masculino</option>
-                            </select>
-                        </div> 
-                        <div className="textbox">
-                            <input type="text"/>
-                            <label>Seleccione competición</label>
+                    <table key={athlete.email}>
+                        <thead className="header">
+                            <tr>
 
-                            <select 
-                                className="textcombo"
-                                name="competition"
-                            >
-                            {
-                                competitionList.map((val, key) => {
-                                    return (
-                                        <option key={val.name}>{val.name}</option>
-                                    )
-                                })
-                            }
-                            </select>
-                        </div> 
-                        {/* {
-                        msgError &&
-                        <div className="alert-error">
-                            <p>{msgError}</p>
-                        </div>
-                        } */}
-                        <button 
-                            className="btn" 
-                            id="btn-info"
-                            type="submit" 
-                        >
-                            Guardar
-                        </button>
-                    </form>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                            <label>Nombre</label>
+                            <div className="textbox">
+                                <input 
+                                    type="text" 
+                                    placeholder={athlete.name} 
+                                    name="name" 
+                                    autoComplete="off"
+                                    required
+                                    value={athlete.name}
+                                />
+                            </div>
+                            </td>
+                            <td><button className="btn" onClick={()=>{}}>Modificar</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                            <label>Email</label>
+                            <div className="textbox">
+                                <input 
+                                    type="text" 
+                                    placeholder={athlete.email}
+                                    name="email" 
+                                    autoComplete="off"
+                                    required
+                                    value={athlete.email}
+                                />
+                            </div>
+                            </td>
+                            <td><button className="btn" onClick={()=>{}}>Modificar</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                            <label>Apodo</label>
+                            <div className="textbox">
+                                <input 
+                                    type="text" 
+                                    placeholder={athlete.nickname}
+                                    name="nickname" 
+                                    autoComplete="off"
+                                    required
+                                    value={athlete.nickname}
+                                />
+                            </div>
+                            </td>
+                            <td><button className="btn" onClick={()=>{}}>Modificar</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                            <label>Contraseña</label>
+                            <div className="textbox">
+                                <input 
+                                    type="password" 
+                                    placeholder="Contraseña"
+                                    name="password" 
+                                    autoComplete="off"
+                                    required
+                                    value={athlete.password}
+                                />
+                            </div>
+                            </td>
+                            <td><button className="btn" onClick={()=>{}}>Modificar</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                            <label>Sexo</label>
+                            <div className="textbox">
+                                <input type="text"/>
+                                <select 
+                                    className="textcombo"
+                                    name="sex"
+                                >
+                                    <option>Actual: {athlete.sex}</option>
+                                    <option>Femenino</option>
+                                    <option>Masculino</option>
+                                </select>
+                            </div>
+                            </td>
+                            <td><button className="btn" onClick={()=>{}}>Modificar</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                            <label>Seleccione competición</label>
+                            <div className="textbox">
+                            <input type="text"/>
+                                <select 
+                                    className="textcombo"
+                                    name="competition"
+                                >
+                                {
+                                    competitionList.map((val, key) => {
+                                        return (
+                                            <option key={val.name}>{val.name}</option>
+                                        )
+                                    })
+                                }
+                                </select>
+                            </div>
+                            </td>
+                            <td><button className="btn" onClick={()=>{}}>Añadir</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 )
             })
         } 
-        
         </div>
-        </div>
+    </div>
 )
 }
