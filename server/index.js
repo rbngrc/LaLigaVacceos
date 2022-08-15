@@ -71,7 +71,7 @@ app.post('/createWod/:name', (req, res) => {
     const name = req.body.name;
     const wodName = req.body.wodName;
 
-    db.query("ALTER TABLE ?? ADD prueba VARCHAR(255)", [name, wodName], (err, result) => {
+    db.query("ALTER TABLE ?? ADD ?? VARCHAR(255)", [name, wodName], (err, result) => {
         if (err) {
             console.log(err);
         } else {
@@ -79,6 +79,23 @@ app.post('/createWod/:name', (req, res) => {
         }
     })
 });
+
+// añadir atleta a base de datos de competicion
+// app.post('/createCompetition', (req, res) => {
+// const name = req.body.name;
+// const date = req.body.date;
+
+// db.query("INSERT INTO competiciones (name, date) VALUES (?, ?)",
+//     [name, date],
+//     (err, result) => {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             res.send("Values Inserted");
+//         }
+//     }
+// );
+// });
 
 /*************** GET ***************/ 
 // obtener atletas tabla atletas
@@ -93,9 +110,12 @@ app.get('/atletas', (req, res) => {
     })
 });
 
-app.get('http://localhost:3001/atletasFemeninos', (req, res) => {
-
-    db.query("SELECT * FROM atletas ORDER BY name WHERE sex = Femenino", (err, result) => {
+// obtener atletas tabla atletas femeninos
+app.get('/atletasFemeninos/:competition', (req, res) => {
+    const competition = req.params.competition;
+    db.query("SELECT * FROM ? WHERE sex = 'Femenino'", 
+    [competition],
+    (err, result) => {
         if (err) {
             console.log(err)
         } else {
@@ -104,9 +124,22 @@ app.get('http://localhost:3001/atletasFemeninos', (req, res) => {
     })
 });
 
+app.get('/atletasMasculinos/:competition', (req, res) => {
+    const competition = req.params.competition;
+    db.query("SELECT * FROM ? WHERE sex = 'Masculino'", 
+    [competition],
+    (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(result)
+        }
+    })
+});
+
+// obtener datos del atleta por nombre dado
 app.get('/atletas/:name', (req, res) => {
     const name = req.params.name;
-    console.log(name)
     db.query("SELECT * FROM atletas WHERE name = ?", 
     [name],
      (err, result) => {

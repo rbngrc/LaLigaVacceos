@@ -45,6 +45,7 @@ export const AthletesScreen = () => {
               <th>nickname</th>
               <th>Email</th>
               <th>Sexo</th>
+              <th>Competiciones</th>
               <th>Accion</th>
           </tr>
       </thead>
@@ -58,6 +59,7 @@ export const AthletesScreen = () => {
                   <td>{val.nickname}</td>
                   <td>{val.email}</td>
                   <td>{val.sex}</td>
+                  <td>{val.competition}</td>
                   <td ><button className="btn" onClick={()=>{deleteAthlete(val.email)}}>Eliminar</button></td>
               </tr>
             )

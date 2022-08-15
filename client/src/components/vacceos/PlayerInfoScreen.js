@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from '../../hooks/useForms';
+// import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+// import { useForm } from '../../hooks/useForms';
 import Axios from 'axios';
 
 import '../../styles/insertData.css';
 
-import { removeError, setError } from '../../actions/ui';
+// import { removeError, setError } from '../../actions/ui';
 
 export const PlayerInfoScreen = () => {
 
@@ -30,7 +31,7 @@ export const PlayerInfoScreen = () => {
                 setAthlete(res);
               };
               getAthletes(name);
-        }, []);
+        }, [name]);
 
     const getCompetitions = () => {
         Axios.get(url + 'competiciones').then((response) => {
@@ -40,10 +41,10 @@ export const PlayerInfoScreen = () => {
 
     getCompetitions();
 
-    const updateDatos = (e) => {
-        e.preventDefault();
-        console.log("Datos guardados")
-    }
+    // const updateDatos = (e) => {
+    //     e.preventDefault();
+    //     console.log("Datos guardados")
+    // }
 
     
 
