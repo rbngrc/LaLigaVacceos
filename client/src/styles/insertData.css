@@ -57,6 +57,7 @@
     padding: 8px 0;
     margin: 8px 0;
     border-bottom: 1px solid #e7799d;
+
 }
 
 .form-group input{
@@ -83,5 +84,5 @@
 
 #btnMarca{
     margin-bottom: 25px;
-    font-size: 25px;
+    font-size: 20px;
 }

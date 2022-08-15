@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useState } from "react";
 import Axios from 'axios';
 
@@ -11,19 +11,30 @@ export const CreateScreen = () => {
     const [compName, setCompName] = useState("");
 
 
-    const getCompetitions = () => {
-        Axios.get(url + 'competiciones').then((response) => {
-          setCompetitionList(response.data)
-          })
-    }
+    useEffect(() => {
+      const getCompetitions = async () => {
+              const {data:res} = await Axios.get(url + 'competiciones');
+                  setCompetitionList(res)
+          };
+          getCompetitions()
+    }, [])
 
-    const getWods = (name) => {
-        Axios.get(url + `wods/${name}`).then((response) => {
-            setWodsList(wodsList.filter((val) => {
-                return val.name !== name;
-            }))
-        })
-    }
+    useEffect(() => {
+      const getWods = async (name) => {
+          const {data:res} = await Axios.get(url + 'wods/' + name);
+            setWodsList(res);
+            };
+            getWods(compName);
+      }, [compName]);
+
+    // const  = (name) => {
+    //     Axios.get(url + 'wods/' + name).then((response) => {
+    //         (wodsList.filter((val) => {
+    //             return val.name !== name;
+    //         }))
+    //     })
+    // }
+
     const addWod = (name, wodName) => {
       Axios.post(url + `createWod/${name}/${wodName}`, {
         name: name,
@@ -34,9 +45,6 @@ export const CreateScreen = () => {
         }])
     })
   }
-    
-
-    getCompetitions();
 
     return (
       <Fragment>

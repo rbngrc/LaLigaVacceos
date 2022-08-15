@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import { useState } from "react";
-// import { useDispatch, useSelector } from 'react-redux';
-import { useSelector } from 'react-redux';
-// import { useForm } from '../../hooks/useForms';
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from '../../hooks/useForms';
 import Axios from 'axios';
 
 import '../../styles/insertData.css';
 
-// import { removeError, setError } from '../../actions/ui';
+import { removeError, setError } from '../../actions/ui';
 
 export const PlayerInfoScreen = () => {
 
@@ -16,37 +15,30 @@ export const PlayerInfoScreen = () => {
     const { name } = useSelector(state => state.auth);
     const [competitionList, setCompetitionList] = useState([]);
     const [athletes, setAthlete] = useState([]);
-    // const [competitionName, setName] = useState("");
-
-    // const getAthletes = (name) => {
-    //     Axios.get(url + 'atletas/'+ name).then((response) => {
-    //         setAthlete(response.data);
-    //       })
-    //       .catch((error) => console.log("Error"))
-    // }
 
     useEffect(() => {
         const getAthletes = async (name) => {
             const {data:res} = await Axios.get(url + 'atletas/' + name);
                 setAthlete(res);
               };
-              getAthletes(name);
-        }, [name]);
+              getAthletes();
+        }, []);
 
-    const getCompetitions = () => {
-        Axios.get(url + 'competiciones').then((response) => {
-          setCompetitionList(response.data)
-          })
+    useEffect(() => {
+        const getCompetitions = async () => {
+                const {data:res} = await Axios.get(url + 'competiciones');
+                    setCompetitionList(res)
+            };
+            getCompetitions()
+    }, [])
+
+    const updateDatos = () => {
+        console.log("Datos guardados ")
     }
 
-    getCompetitions();
-
-    // const updateDatos = (e) => {
-    //     e.preventDefault();
-    //     console.log("Datos guardados")
-    // }
-
-    
+    const addComp = () => {
+        console.log("Anadida Competicion ")
+    }
 
   return (
     <div className="data-card">
@@ -55,125 +47,117 @@ export const PlayerInfoScreen = () => {
             <hr/>
         </div>
         <div>
-        {
-            athletes.map(athlete => {
-                // TODO console.log(athlete.name + " form") OJO BUCLE 
-                return(
-                    <table key={athlete.email}>
-                        <thead className="header">
-                            <tr>
+        <form 
+            className="info-box"
+        >
+            <div className="textbox">
+                <label>Nombre</label>
+                {
+                    athletes.map((val, key) => {
+                        return (
+                            [val.name]
+                        )
+                    })
+                }
+                <input 
+                    type="text" 
+                    placeholder="Nombre" 
+                    name="name" 
+                    autoComplete="off"
+                    required
+                    // value={name}
+                />
+            </div>
+            <div className="textbox">
+                <label>Apodo</label>
+                <input 
+                    type="text" 
+                    placeholder="Apodo" 
+                    name="nickname" 
+                    autoComplete="off"
+                    required
+                    // value={nickname}
+                />
+            </div>
+            <div className="textbox">
+                <label>Contraseña</label>
+                <input 
+                    type="password" 
+                    placeholder="Contraseña" 
+                    name="password" 
+                    autoComplete="off"
+                    required
+                    // value={password}
+                />
+            </div>
+            <div className="textbox">
+                <label>Repita la contraseña</label>
+                <input 
+                    type="password" 
+                    placeholder="Repita la contraseña" 
+                    name="password2" 
+                    autoComplete="off"
+                    required
+                    // value={password2}
+                />
+            </div> 
+            <div className="textbox">
+                <input type="text"/>
+                <label>Seleccione su sexo</label>
+                <select 
+                    className="textcombo"
+                    name="sex"
+                >
+                    {/* <option>{sex}</option> */}
+                    <option>Femenina</option>
+                    <option>Masculina</option>
+                </select>
+            </div> 
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                            <label>Nombre</label>
-                            <div className="textbox">
-                                <input 
-                                    type="text" 
-                                    placeholder={athlete.name} 
-                                    name="name" 
-                                    autoComplete="off"
-                                    required
-                                    value={athlete.name}
-                                />
-                            </div>
-                            </td>
-                            <td><button className="btn" onClick={()=>{}}>Modificar</button></td>
-                        </tr>
-                        <tr>
-                            <td>
-                            <label>Email</label>
-                            <div className="textbox">
-                                <input 
-                                    type="text" 
-                                    placeholder={athlete.email}
-                                    name="email" 
-                                    autoComplete="off"
-                                    required
-                                    value={athlete.email}
-                                />
-                            </div>
-                            </td>
-                            <td><button className="btn" onClick={()=>{}}>Modificar</button></td>
-                        </tr>
-                        <tr>
-                            <td>
-                            <label>Apodo</label>
-                            <div className="textbox">
-                                <input 
-                                    type="text" 
-                                    placeholder={athlete.nickname}
-                                    name="nickname" 
-                                    autoComplete="off"
-                                    required
-                                    value={athlete.nickname}
-                                />
-                            </div>
-                            </td>
-                            <td><button className="btn" onClick={()=>{}}>Modificar</button></td>
-                        </tr>
-                        <tr>
-                            <td>
-                            <label>Contraseña</label>
-                            <div className="textbox">
-                                <input 
-                                    type="password" 
-                                    placeholder="Contraseña"
-                                    name="password" 
-                                    autoComplete="off"
-                                    required
-                                    value={athlete.password}
-                                />
-                            </div>
-                            </td>
-                            <td><button className="btn" onClick={()=>{}}>Modificar</button></td>
-                        </tr>
-                        <tr>
-                            <td>
-                            <label>Sexo</label>
-                            <div className="textbox">
-                                <input type="text"/>
-                                <select 
-                                    className="textcombo"
-                                    name="sex"
-                                >
-                                    <option>Actual: {athlete.sex}</option>
-                                    <option>Femenino</option>
-                                    <option>Masculino</option>
-                                </select>
-                            </div>
-                            </td>
-                            <td><button className="btn" onClick={()=>{}}>Modificar</button></td>
-                        </tr>
-                        <tr>
-                            <td>
-                            <label>Seleccione competición</label>
-                            <div className="textbox">
-                            <input type="text"/>
-                                <select 
-                                    className="textcombo"
-                                    name="competition"
-                                >
-                                {
-                                    competitionList.map((val, key) => {
-                                        return (
-                                            <option key={val.name}>{val.name}</option>
-                                        )
-                                    })
-                                }
-                                </select>
-                            </div>
-                            </td>
-                            <td><button className="btn" onClick={()=>{}}>Añadir</button></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                )
-            })
-        } 
+            {/* {
+            msgError &&
+            <div className="alert-error">
+                <p>{msgError}</p>
+            </div>
+            } */}
+            <button 
+                className="btn" 
+                id="btnMarca"
+                type="submit" 
+            >
+                Actualizar datos
+            </button>
+        </form>
+        <form 
+            className="info-box"
+        >
+        <div className="textbox">
+                <input type="text"/>
+                <label>Seleccione competición</label>
+
+                <select 
+                    className="textcombo"
+                    name="competition"
+                >
+                {
+                    competitionList.map((val, key) => {
+                        console.log(val.name)
+                        return (
+                            <option>{val.name}</option>
+                        )
+                    })
+                }
+                </select>
+            </div> 
+            <button 
+                className="btn" 
+                id="btnMarca"
+                type="submit" 
+            >
+                Entrar a competir
+            </button>
+        </form>
         </div>
-    </div>
+        </div>
 )
 }

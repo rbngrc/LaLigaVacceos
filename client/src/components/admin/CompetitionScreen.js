@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from "react";
 import Axios from 'axios';
 
@@ -30,11 +30,13 @@ export const CompetitionScreen = () => {
     })
   };
 
-  const getCompetitions = () => {
-      Axios.get(url + 'competiciones').then((response) => {
-        setCompetitionList(response.data)
-        })
-  }
+  useEffect(() => {
+    const getCompetitions = async () => {
+            const {data:res} = await Axios.get(url + 'competiciones');
+                setCompetitionList(res)
+        };
+        getCompetitions()
+  }, [])
 
   const deleteCompetition = (name) => {
       Axios.delete(url + `deleteCompetition/${name}`).then((response) => {
@@ -49,8 +51,6 @@ export const CompetitionScreen = () => {
           }));
       });
   }
-
-  getCompetitions();
 
   return (
       <table>

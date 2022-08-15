@@ -124,6 +124,7 @@ app.get('/atletasFemeninos/:competition', (req, res) => {
     })
 });
 
+// obtener atletas tabla atletas masculinos
 app.get('/atletasMasculinos/:competition', (req, res) => {
     const competition = req.params.competition;
     db.query("SELECT * FROM ? WHERE sex = 'Masculino'", 
