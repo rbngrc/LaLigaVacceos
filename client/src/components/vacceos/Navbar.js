@@ -38,7 +38,7 @@ export const Navbar = () => {
                         Media
                     </NavLink>
                     { 
-                        (uid === "SPag0cEwk6OBWajolRAk8Eu7yzx2") 
+                        (uid === "lbeH4licbFbwPVjPB9BsJo8eult1") 
                         ?
                         (
                             <Fragment>
