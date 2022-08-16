@@ -1,0 +1,57 @@
+@font-face {
+    font-family: "UniversalTSD";
+    src: url("../assets/UniversLTStd-UltraCn.otf") format("truetype");
+}
+
+@font-face {
+    font-family: "Homestead";
+    src: url("../assets/homestead-display.ttf") format("truetype");
+}
+
+.wod-card {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2);
+    border: 1px solid #e7799d;
+    padding: 0 20px;
+    margin: 0 20px;
+    max-height: 500px;
+    max-width: 900px;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    border-radius: 30px;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-bottom: 50px;
+}
+
+.wod-title {
+    font-family: Homestead;
+    background: none;
+    color: #e7799d;
+    font-size: 1.5vw;
+    margin-bottom: 20px;
+    padding-top: 20px;
+}
+
+.wod-title h1 {
+    background: none;
+}
+
+.wod-body {
+    font-family: UniversalTSD;
+    font-size: 30px;
+    padding-bottom: 20px;
+    background: none;
+    text-align: center;
+}
+
+.wod-body p {
+    background: none;
+    transition: 0.3s ease;
+}
+
+.wod-body p:hover {
+    transform: scale(1.6);
+}

@@ -1,39 +1,63 @@
-import React, { useState,useEffect } from 'react';
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
+import {
+    BrowserRouter as Router,
+    Switch,
+  } from "react-router-dom";
+import { login } from '../actions/auth';
+import { firebase } from "../firebase/firebase-config"
 
+import { AuthRouter } from './AuthRouter';
+import { DashboardRoutes } from './DashboardRoutes';
+import { LoadingScreen } from '../components/ux/LoadingScreen';
 
-import { LoadingScreen } from "../components/ui/LoadingScreen"
+import { PrivateRoute } from './PrivateRoute';
+import { PublicRoute } from './PublicRoute';
 
 export const AppRouter = () => {
 
   const dispatch = useDispatch();
 
-  const [checking, setChecking] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [checking, setchecking] = useState(true);
+  const [isLoggedIn, setisLoggedIn] = useState(false)
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async(user) => {
         if (user?.uid) {
-            dispatch(login(user.uid, user.displayName));
-            setIsLoggedIn(true);
+          dispatch(login(user.uid, user.displayName));
+          setisLoggedIn(true);
         } else {
-            setIsLoggedIn(false);
+          setisLoggedIn(false);
         }
 
-        setChecking(false);
+        setchecking(false);
 
     });
-}, [dispatch, setChecking, setIsLoggedIn])
-  
+  }, [dispatch, setchecking, setisLoggedIn]);
 
   if (checking) {
-      return (
-          <LoadingScreen />
-      )
-  }  
-  return (
-    <div>
-        
-    </div>
-  )
+    return (
+        <LoadingScreen />
+    )
+  };
+  
+
+    return (
+      <Router>
+          <div>
+              <Switch>
+                  <PublicRoute
+                      isAuthenticated={isLoggedIn}
+                      path="/auth"
+                      component = { AuthRouter }
+                  />
+                  <PrivateRoute
+                      isAuthenticated={isLoggedIn}
+                      path="/"
+                      component = { DashboardRoutes }
+                  />
+              </Switch>
+          </div>
+      </Router>
+    )
 }

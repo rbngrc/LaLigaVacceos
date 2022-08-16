@@ -1,0 +1,88 @@
+@font-face {
+    font-family: "UniversalTSD";
+    src: url("../assets/UniversLTStd-UltraCn.otf") format("truetype");
+}
+
+@font-face {
+    font-family: "Homestead";
+    src: url("../assets/homestead-display.ttf") format("truetype");
+}
+
+.info-card{
+    display: flex;
+    flex-direction: column;
+}
+
+.info-box label {
+    font-family: UniversalTSD;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 18px;
+    width: 80%;
+    float: left;
+    margin: 0 10px;
+}
+
+#form-marca {
+    background: none;
+}
+
+.data-card {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2);
+    border: 1px solid #e7799d;
+    padding: 0 20px;
+    margin: 0 20px;
+    max-height: 1500px;
+    max-width: 900px;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    border-radius: 30px;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-bottom: 50px;
+}
+
+.data-card h1 {
+    background: none;
+}
+
+.form-group {
+    width: 100%;
+    overflow: hidden;
+    font-size: 20px;
+    padding: 8px 0;
+    margin: 8px 0;
+    border-bottom: 1px solid #e7799d;
+
+}
+
+.form-group input{
+    font-family: UniversalTSD;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 18px;
+    width: 80%;
+    float: left;
+    margin: 0 10px;
+}
+
+.form-group textarea {
+    font-family: UniversalTSD;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 18px;
+    width: 80%;
+    float: left;
+    margin: 0 10px;
+}
+
+#btnMarca{
+    margin-bottom: 25px;
+    font-size: 20px;
+}

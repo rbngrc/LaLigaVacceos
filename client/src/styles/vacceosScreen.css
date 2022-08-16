@@ -1,0 +1,74 @@
+@font-face {
+    font-family: "UniversalTSD";
+    src: url("../assets/UniversLTStd-UltraCn.otf") format("truetype");
+}
+
+@font-face {
+    font-family: "Homestead";
+    src: url("../assets/homestead-display.ttf") format("truetype");
+}
+
+.box-info {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    width: 100%;
+    max-width: 900px;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.card {
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2);
+    border: 1px solid #e7799d;
+    padding: 0 20px;
+    margin: 0 20px;
+    width: calc(33% - 20px);
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    border-radius: 30px;
+}
+
+.card_imagen {
+    background: none;
+    height: 80px;
+    width: 80px;
+    text-align: center;
+    line-height: 80px !important;
+    transition: 0.3s linear;
+}
+
+.card:hover .card_imagen{
+    transform: scale(1.6);
+}
+
+.card a {
+    text-decoration: none;
+    background: none;
+    font-family: Homestead;
+    margin-top: 20px;
+    font-weight: 300;
+    max-height: 0;
+    opacity: 0;
+    transition: 0.3s linear;
+}
+
+.card:hover a {
+    max-height: 40px;
+    opacity: 1;
+}
+
+@media screen and (max-width: 900px) {
+    .box-info {
+        flex-direction: column;
+    }
+    .card {
+        width: 100%;
+        max-width: 300px;
+        margin: 10px 0;
+    }
+}
