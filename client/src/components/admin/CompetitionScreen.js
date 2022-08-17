@@ -2,9 +2,12 @@ import React, { useEffect } from 'react';
 import { useState } from "react";
 import Axios from 'axios';
 
+import { url } from '../../constans';
+
 export const CompetitionScreen = () => {
 
-  const url = "http://localhost:3001/"
+  // const url = "https://vacceos-liga.herokuapp.com/"
+  // const url = "http://localhost:3001/"
 
   const [competitionList, setCompetitionList] = useState([]);
   const [name, setName] = useState("");

@@ -2,6 +2,8 @@ import React from 'react'
 // import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from '../../hooks/useForms';
 
+import { url } from '../../constans';
+
 import '../../styles/insertData.css';
 
 export const PlayerInsertData = () => {

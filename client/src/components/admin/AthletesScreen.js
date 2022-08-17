@@ -1,23 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from "react";
 import Axios from 'axios';
 
 // import { firebase } from "../../firebase/firebase-config"
 
-import '../../styles/table.css';
+import { url } from '../../constans';
 
+import '../../styles/table.css';
 
 export const AthletesScreen = () => {
 
-  const url = "http://localhost:3001/"
-
   const [athleteList, setAthleteList] = useState([]);
 
-    const getAthletes = () => {
-        Axios.get(url + 'atletas').then((response) => {
-          setAthleteList(response.data)
-          })
-    }
+  useEffect(() => {
+    const getAthletes = async (name) => {
+        const {data:res} = await Axios.get(url + 'atletas');
+            setAthleteList(res);
+          };
+          getAthletes();
+    }, []);
 
         const deleteAthlete = (email) => {
         Axios.delete(url + `delete/${email}`).then((response) => {
@@ -35,8 +36,6 @@ export const AthletesScreen = () => {
 
   // };
 
-    getAthletes();
-
   return (
     <table>
       <thead className="header">
@@ -53,6 +52,7 @@ export const AthletesScreen = () => {
       <tbody>
         {
           athleteList.map((val, key) => {
+            console.log(val.name)
             return (
               <tr key={val.email}>
                   <td>{val.name}</td>

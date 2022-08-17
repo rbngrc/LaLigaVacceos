@@ -3,6 +3,8 @@ const app = express();
 const mysql = require('mysql2');
 const cors = require('cors');
 
+const PORT = process.env.PORT || 4000;
+
 app.use(cors());
 app.use(express.json());
 
@@ -236,6 +238,10 @@ app.delete('/dropTable/:name', (req, res) => {
     });
 });
 
-app.listen(3001, () => {
-    console.log("Server up & running")
+// app.listen(3001, () => {
+//     console.log("Server up & running")
+// });
+
+app.listen(PORT, () => {
+    console.log("Running on port " + PORT)
 });

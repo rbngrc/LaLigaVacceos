@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from '../../hooks/useForms';
+// import { useForm } from '../../hooks/useForms';
 import Axios from 'axios';
+
+import { url } from '../../constans';
 
 import '../../styles/insertData.css';
 
-import { removeError, setError } from '../../actions/ui';
+// import { removeError, setError } from '../../actions/ui';
 
 export const PlayerInfoScreen = () => {
-
-    const url = "http://localhost:3001/"
 
     const { name } = useSelector(state => state.auth);
     const [competitionList, setCompetitionList] = useState([]);

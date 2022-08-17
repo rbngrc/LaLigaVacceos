@@ -2,18 +2,12 @@ import React, { useEffect } from 'react';
 import { useState } from "react";
 import Axios from 'axios';
 
-export const WomanTable = () => {
+import { url } from '../../constans';
 
-  const url = "http://localhost:3001/"
+export const WomanTable = () => {
 
   const [athleteList, setAthleteList] = useState([]);
   const [competitionList, setCompetitionList] = useState([]);
-
-  // const getAthletes = () => {
-  //   Axios.get(url + 'atletasFemeninos').then((response) => {
-  //     setAthleteList(response.data)
-  //     })
-  // }
 
   useEffect(() => {
     const getAthletes = async (name) => {
@@ -23,23 +17,24 @@ export const WomanTable = () => {
           getAthletes();
     }, []);
 
-  const getCompetitions = () => {
-    Axios.get(url + 'competiciones').then((response) => {
-      setCompetitionList(response.data)
-      })
-}
-
-  getCompetitions();
-  // getAthletes();
+    useEffect(() => {
+      const getCompetitions = async () => {
+              const {data:res} = await Axios.get(url + 'competiciones');
+                  setCompetitionList(res)
+          };
+          getCompetitions()
+    }, [])
 
   return (
-    <table>
-      <select 
+    <div className="data-card">
+      <div className="textbox">
+        <select 
             className="textcombo"
             name="competition"
         >
         {
             competitionList.map((val, key) => {
+              console.log(val.name)
                 return (
                     <option
                     onChange={(event) => {
@@ -50,32 +45,35 @@ export const WomanTable = () => {
                 )
             })
         }
-      </select>
-      <thead className="header">
-          <tr>
-              <th>Posición</th>
-              <th></th>
-              <th>Nombre</th>
-              <th>Puntuación</th>
-              <th>Mejor Puesto</th>
-          </tr>
-      </thead>
-      
-      <tbody>
-        {
-          athleteList.map((val, key) => {
-            return (
-              <tr key={val.name}>
-                  <td>{val.position}</td>
-                  {/* <td>{val.photo}</td> */}
-                  <td>{val.name}<br/><span className="nickname">{val.nickname}</span></td>
-                  <td>{val.last}</td>
-                  <td>{val.best}</td>
-              </tr>
-            )
-          })
-        }  
-      </tbody>
-    </table>
+        </select>
+      </div> 
+      <table>
+        <thead className="header">
+            <tr>
+                <th>Posición</th>
+                <th></th>
+                <th>Nombre</th>
+                <th>Puntuación</th>
+                <th>Mejor Puesto</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+          {
+            athleteList.map((val, key) => {
+              return (
+                <tr key={val.name}>
+                    <td>{val.position}</td>
+                    {/* <td>{val.photo}</td> */}
+                    <td>{val.name}<br/><span className="nickname">{val.nickname}</span></td>
+                    <td>{val.last}</td>
+                    <td>{val.best}</td>
+                </tr>
+              )
+            })
+          }  
+        </tbody>
+      </table>
+    </div>
   )
 }
