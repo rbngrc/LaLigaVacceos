@@ -8,10 +8,10 @@ app.use(express.json());
 
 // datos de conexión a la base de datos
 const db = mysql.createConnection({
-    user: 'root',
-    host: 'localhost',
-    password: '',
-    database: 'vacceos_championships'
+    user: 'vNoSui2oOC',
+    host: 'remotemysql.com',
+    password: 'RLKb8X8pYt',
+    database: 'vNoSui2oOC'
 });
 
 /*************** POST ***************/ 
