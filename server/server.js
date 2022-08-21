@@ -9,12 +9,20 @@ app.use(cors());
 app.use(express.json());
 
 // datos de conexión a la base de datos
-const db = mysql.createConnection({
-    user: 'vNoSui2oOC',
-    host: 'remotemysql.com',
-    password: 'RLKb8X8pYt',
-    database: 'vNoSui2oOC'
+// const db = mysql.createPool({
+//     user: 'vNoSui2oOC',
+//     host: 'remotemysql.com',
+//     password: 'RLKb8X8pYt',
+//     database: 'vNoSui2oOC'
+// });
+
+const db = mysql.createPool({
+    user: 'root',
+    host: 'localhost',
+    password: '',
+    database: 'vacceos_championships'
 });
+
 
 /*************** POST ***************/ 
 // insertar datos en tabla atleta
@@ -68,12 +76,24 @@ app.post('/createCompetition/:name', (req, res) => {
     })
 });
 
+app.post('/createCompetitionsWods/:name', (req, res) => {
+    const table2 = req.body.name + "_prueba";
+    db.query("CREATE TABLE ?? (name VARCHAR(66) PRIMARY KEY, wod VARCHAR(66))", [table2], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result)
+        }
+    })
+});
+
 // crear columna en la tabla de la liga con el nombre deseado y columna con el nombre deseado
 app.post('/createWod/:name', (req, res) => {
     const name = req.body.name;
-    const wodName = req.body.wodName;
+    const wodDate = req.body.wodDate;
+    const wodBody = req.body.wodBody;
 
-    db.query("ALTER TABLE ?? ADD ?? VARCHAR(255)", [name, wodName], (err, result) => {
+    db.query("ALTER TABLE ?? ADD ?? VARCHAR(255)", [name, wodDate, wodBody], (err, result) => {
         if (err) {
             console.log(err);
         } else {
@@ -167,7 +187,7 @@ app.get('/competiciones', (req, res) => {
 
 // obtener wods segun tabla solicitada $name
 app.get('/wods/:name', (req, res) => {
-    const name = req.params.name
+    const name = req.params.name + "_prueba";
 
     db.query("SELECT * FROM ??", 
     [name], 
@@ -238,10 +258,23 @@ app.delete('/dropTable/:name', (req, res) => {
     });
 });
 
-// app.listen(3001, () => {
-//     console.log("Server up & running")
-// });
+app.delete('/dropTableWods/:name', (req, res) => {
+    const name = req.params.name + "_prueba";
 
-app.listen(PORT, () => {
-    console.log("Running on port " + PORT)
+    db.query("DROP TABLE ?? ", name,
+    (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
 });
+
+app.listen(3001, () => {
+    console.log("Server up & running")
+});
+
+// app.listen(PORT, () => {
+//     console.log("Running on port " + PORT)
+// });

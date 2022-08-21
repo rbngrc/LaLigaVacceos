@@ -6,9 +6,6 @@ import { url } from '../../constans';
 
 export const CompetitionScreen = () => {
 
-  // const url = "https://vacceos-liga.herokuapp.com/"
-  // const url = "http://localhost:3001/"
-
   const [competitionList, setCompetitionList] = useState([]);
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
@@ -31,6 +28,14 @@ export const CompetitionScreen = () => {
           name: name,
         }])
     })
+
+    Axios.post(url + `createCompetitionsWods/${name}`, {
+      name: name,
+      }).then(() => {
+          setCompetitionList([...competitionList, {
+            name: name,
+          }])
+      })
   };
 
   useEffect(() => {
@@ -49,6 +54,12 @@ export const CompetitionScreen = () => {
       });
 
       Axios.delete(url + `dropTable/${name}`).then((response) => {
+        setCompetitionList(competitionList.filter((val) => {
+          return val.name !== name
+          }));
+      });
+
+      Axios.delete(url + `dropTableWods/${name}`).then((response) => {
         setCompetitionList(competitionList.filter((val) => {
           return val.name !== name
           }));

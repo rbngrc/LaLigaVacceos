@@ -1,5 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
-import { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 
 import { url } from '../../constans';
@@ -8,7 +7,7 @@ export const CreateScreen = () => {
 
     const [competitionList, setCompetitionList] = useState([]);
     const [wodsList, setWodsList] = useState([]);
-    const [compName, setCompName] = useState("");
+    const [compName, setCompName] = useState([]);
 
     useEffect(() => {
       const getCompetitions = async () => {
@@ -18,13 +17,13 @@ export const CreateScreen = () => {
           getCompetitions()
     }, [])
 
-    useEffect(() => {
-      const getWods = async (name) => {
-          const {data:res} = await Axios.get(url + 'wods/' + name);
-            setWodsList(res);
-            };
-            getWods(compName);
-      }, [compName]);
+    // useEffect(() => {
+    //   const getWods = async (name) => {
+    //       const {data:res} = await Axios.get(url + `wods/${name}`);
+    //         setWodsList(res);
+    //         };
+    //         getWods(compName);
+    //   }, [compName]);
 
     // const  = (name) => {
     //     Axios.get(url + 'wods/' + name).then((response) => {
@@ -34,42 +33,54 @@ export const CreateScreen = () => {
     //     })
     // }
 
-    const addWod = (name, wodName) => {
-      Axios.post(url + `createWod/${name}/${wodName}`, {
+    const addWod = (name, wodDate, wodBody) => {
+      Axios.post(url + `createWod/${name}/${wodDate}/${wodBody}`, {
         name: name,
-        wodName: wodName
+        wodDate: wodDate,
+        wodBody: wodBody
         }).then(() => {
           setCompetitionList([...competitionList, {
             name: name,
-        }])
-    })
-  }
+          }])
+        })
+    }
+
+    const getOption = () => {
+      // console.log(e)
+      const name = document.getElementById('competitionName').innerHTML
+      console.log(name)
+    }
 
     return (
       <div className="data-card">
-        <div className="textbox">
+        <div 
+          className="textbox"
+          // onSubmit={getOption}
+        >
           <select 
               className="textcombo"
-              name="competition"
+              // id="competitionName"
+              onChange={getOption}
           >
           {
               competitionList.map((val, key) => {
                   return (
                       <option
-                      onChange={(event) => {
-                        setCompName(event.target.value);
-                      }}
+                      id='competitionName'
                       key={val.name}
+                      value={val.name}
                       >{val.name}</option>
                   )
               })
           }
           </select>
+          {/* <button className="btn" type='submit'>Mostrar</button> */}
         </div> 
           <table>
             <thead className="header">
                 <tr>
                     <th>Nombre del wod</th>
+                    <th>Fecha del wod</th>
                     <th>WOD</th>
                     <th>Accion</th>
                 </tr>
@@ -77,20 +88,36 @@ export const CreateScreen = () => {
             <tbody>
             <tr>
                 <td>
-                  <input 
-                      type="text" 
-                      placeholder="Nombre del wod"
-                      name="name"
-                      autoComplete="off"
-                  />
+                  <div className="textbox">
+                    <input 
+                        type="text" 
+                        placeholder="Nombre del wod"
+                        name="name"
+                        autoComplete="off"
+                    />
+                  </div>
                 </td>
                 <td>
-                  <textarea 
-                      type="text" 
-                      placeholder="WOD"
-                      name="wod"
-                      autoComplete="off"
-                  />
+                  <div className="textbox">
+                    <input 
+                      type="date" 
+                      min="" 
+                      max="" 
+                      name="date"
+                      onChange={(event) => {
+                        // setDate(event.target.value);
+                      }}/>
+                  </div>
+                </td>
+                <td>
+                  <div className="textbox">
+                    <textarea 
+                        type="text" 
+                        placeholder="WOD"
+                        name="wod"
+                        autoComplete="off"
+                    />
+                  </div>
                 </td>
                 <td><button className="btn" onClick={()=>{addWod()}}>Nuevo</button></td>
               </tr>
