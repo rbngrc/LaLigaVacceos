@@ -1,15 +1,32 @@
-competitionList.map((val, key) => {
-    const name = val.name
-    return console.log(name + " normal")
-  }) 
+import { useState } from "react";
+import Axios from 'axios';
 
-  competitionList.reverse().map((val, key) => {
-    const name = val.name
-    return console.log(name + " al reves")
-  }) 
+import { url } from '../constans';
 
+export const usePoints = (initialState = []) => {
 
-  for (let i = 0; i < competitionList.length; i++) {
-    const element = i;
-    console.log(element)
-  }
+  const [athleteList, setAthleteList] = useState([]);
+
+  const getAthletes = async (name) => {
+    const {data:res} = await Axios.get(url + 'atletas');
+        setAthleteList(res);
+      };
+      getAthletes();
+
+    athleteList.map((val, key) => {
+      const name = val.name
+      return console.log(name + " normal")
+    }) 
+
+    athleteList.reverse().map((val, key) => {
+      const name = val.name
+      return console.log(name + " al reves")
+    }) 
+
+    for (let i = 0; i < athleteList.length; i++) {
+      const element = i;
+      console.log(element)
+    }
+    return athleteList
+    
+  } 

@@ -3,10 +3,11 @@ const app = express();
 const mysql = require('mysql2');
 const cors = require('cors');
 
-const PORT = process.env.PORT || 4000;
-
 app.use(cors());
 app.use(express.json());
+
+// const PORT = process.env.PORT || 4000;
+const PORT = 3001;
 
 // datos de conexión a la base de datos
 // const db = mysql.createPool({
@@ -271,10 +272,6 @@ app.delete('/dropTableWods/:name', (req, res) => {
     });
 });
 
-app.listen(3001, () => {
-    console.log("Server up & running")
+app.listen(PORT, () => {
+    console.log("Server up & running / Running on port: " + PORT)
 });
-
-// app.listen(PORT, () => {
-//     console.log("Running on port " + PORT)
-// });

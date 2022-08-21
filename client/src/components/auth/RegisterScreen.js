@@ -6,13 +6,15 @@ import validator from "validator";
 import Axios from 'axios';
 
 import"../../styles/registerScreen.css"
+
 import { removeError, setError } from '../../actions/ui';
 import { startRegisterUserPassword } from '../../actions/auth';
+import { url } from '../../constans';
 
 export const RegisterScreen = () => {
 
     const addAthlete = () => {
-        Axios.post('http://localhost:3001/create', {
+        Axios.post(url + 'create', {
             email: email,
             name: name,
             nickname: nickname,
