@@ -8,7 +8,7 @@ export const usePoints = (initialState = []) => {
   const [athleteList, setAthleteList] = useState([]);
 
   useEffect(() => {
-    const getAthletes = async (name) => {
+    const getAthletes = async () => {
         const {data:res} = await Axios.get(url + 'atletas');
             setAthleteList(res);
           };
