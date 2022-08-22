@@ -68,6 +68,7 @@ app.post('/createCompetition', (req, res) => {
 // crea tabla de la liga con el nombre deseado
 app.post('/createCompetition/:name', (req, res) => {
     const name = req.body.name;
+
     db.query("CREATE TABLE ?? (name VARCHAR(66) PRIMARY KEY, nickname VARCHAR(66), total VARCHAR(66))", [name], (err, result) => {
         if (err) {
             console.log(err);
@@ -77,9 +78,11 @@ app.post('/createCompetition/:name', (req, res) => {
     })
 });
 
+// crea tabla de la liga con el nombre deseado + _wods, para insertar los wods
 app.post('/createCompetitionsWods/:name', (req, res) => {
-    const table2 = req.body.name + "_prueba";
-    db.query("CREATE TABLE ?? (name VARCHAR(66) PRIMARY KEY, wod VARCHAR(66))", [table2], (err, result) => {
+    const table2 = req.body.name + "_wods";
+
+    db.query("CREATE TABLE ?? (name VARCHAR(66), date VARCHAR(66) PRIMARY KEY, wod VARCHAR(66))", [table2], (err, result) => {
         if (err) {
             console.log(err);
         } else {
@@ -88,13 +91,42 @@ app.post('/createCompetitionsWods/:name', (req, res) => {
     })
 });
 
-// crear columna en la tabla de la liga con el nombre deseado y columna con el nombre deseado
-app.post('/createWod/:name', (req, res) => {
-    const name = req.body.name;
+// añadir wods en la tabla de la liga con el nombre deseado
+app.post('/createWod/:tableName/:wodName/:wodDate/:wodBody', (req, res) => {
+    const tableName = req.body.tableName + "_wods";
+    const wodName = req.body.wodName;
     const wodDate = req.body.wodDate;
     const wodBody = req.body.wodBody;
 
-    db.query("ALTER TABLE ?? ADD ?? VARCHAR(255)", [name, wodDate, wodBody], (err, result) => {
+    db.query("INSERT INTO ?? (name, date, wod) VALUES (?, ?, ?)", [tableName, wodName, wodDate, wodBody], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result)
+        }
+    })
+});
+
+// añadir columna en la tabla de la liga con la fecha del wod
+app.post('/updateClasification/:tableName/:wodDate', (req, res) => {
+    const tableName = req.body.tableName;
+    const wodDate = req.body.wodDate;
+
+    db.query("ALTER TABLE ?? ADD COLUMN ?? VARCHAR(66)", [tableName, wodDate], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result)
+        }
+    })
+});
+
+// borrar columna en la tabla de la liga con la fecha del wod
+app.post('/updateDropClasification/:tableName/:wodDate', (req, res) => {
+    const tableName = req.body.tableName;
+    const wodDate = req.body.wodDate;
+
+    db.query("ALTER TABLE ?? DROP COLUMN ??", [tableName, wodDate], (err, result) => {
         if (err) {
             console.log(err);
         } else {
@@ -136,6 +168,7 @@ app.get('/atletas', (req, res) => {
 // obtener atletas tabla atletas femeninos
 app.get('/atletasFemeninos/:competition', (req, res) => {
     const competition = req.params.competition;
+
     db.query("SELECT * FROM ? WHERE sex = 'Femenino'", 
     [competition],
     (err, result) => {
@@ -150,6 +183,7 @@ app.get('/atletasFemeninos/:competition', (req, res) => {
 // obtener atletas tabla atletas masculinos
 app.get('/atletasMasculinos/:competition', (req, res) => {
     const competition = req.params.competition;
+
     db.query("SELECT * FROM ? WHERE sex = 'Masculino'", 
     [competition],
     (err, result) => {
@@ -164,6 +198,7 @@ app.get('/atletasMasculinos/:competition', (req, res) => {
 // obtener datos del atleta por nombre dado
 app.get('/atletas/:name', (req, res) => {
     const name = req.params.name;
+
     db.query("SELECT * FROM atletas WHERE name = ?", 
     [name],
      (err, result) => {
@@ -177,6 +212,7 @@ app.get('/atletas/:name', (req, res) => {
 
 // obtener Competiciones tabla competiciones
 app.get('/competiciones', (req, res) => {
+
     db.query("SELECT * FROM competiciones ORDER BY date", (err, result) => {
         if (err) {
             console.log(err)
@@ -188,7 +224,7 @@ app.get('/competiciones', (req, res) => {
 
 // obtener wods segun tabla solicitada $name
 app.get('/wods/:name', (req, res) => {
-    const name = req.params.name + "_prueba";
+    const name = req.params.name + "_wods";
 
     db.query("SELECT * FROM ??", 
     [name], 
@@ -246,6 +282,7 @@ app.delete('/deleteCompetition/:name', (req, res) => {
     });
 });
 
+// borrar competicion segun nombre en tabla competiciones
 app.delete('/dropTable/:name', (req, res) => {
     const name = req.params.name;
 
@@ -259,10 +296,26 @@ app.delete('/dropTable/:name', (req, res) => {
     });
 });
 
+// borrar competicion segun nombre en tabla competiciones
 app.delete('/dropTableWods/:name', (req, res) => {
-    const name = req.params.name + "_prueba";
+    const name = req.params.name + "_wods";
 
     db.query("DROP TABLE ?? ", name,
+    (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+// borrar competicion segun nombre en tabla competiciones
+app.delete('/dropWod/:tableName/:wodDate', (req, res) => {
+    const tableName = req.params.tableName + "_wods";
+    const wodDate = req.params.wodDate;
+
+    db.query("DELETE FROM ?? WHERE date = ?", [tableName ,wodDate], 
     (err, result) => {
         if (err) {
             console.log(err);

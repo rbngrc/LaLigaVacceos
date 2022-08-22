@@ -7,7 +7,10 @@ export const CreateScreen = () => {
 
     const [competitionList, setCompetitionList] = useState([]);
     const [wodsList, setWodsList] = useState([]);
-    const [compName, setCompName] = useState([]);
+    const [wodName, setWodName] = useState("");
+    const [wodDate, setWodDate] = useState("");
+    const [wodBody, setWodBody] = useState("");
+    const [selects, setSelects] = useState("");
 
     useEffect(() => {
       const getCompetitions = async () => {
@@ -17,64 +20,79 @@ export const CreateScreen = () => {
           getCompetitions()
     }, [])
 
-    // useEffect(() => {
-    //   const getWods = async (name) => {
-    //       const {data:res} = await Axios.get(url + `wods/${name}`);
-    //         setWodsList(res);
-    //         };
-    //         getWods(compName);
-    //   }, [compName]);
+    useEffect(() => {
+      const getWods = async (selects) => {
+          const {data:res} = await Axios.get(url + `wods/${selects}`);
+            setWodsList(res);
+            };
+            getWods(selects);
+      }, [selects]);
 
-    // const  = (name) => {
-    //     Axios.get(url + 'wods/' + name).then((response) => {
-    //         (wodsList.filter((val) => {
-    //             return val.name !== name;
-    //         }))
-    //     })
-    // }
-
-    const addWod = (name, wodDate, wodBody) => {
-      Axios.post(url + `createWod/${name}/${wodDate}/${wodBody}`, {
-        name: name,
+    const addWod = () => {
+      Axios.post(url + `createWod/${selects}/${wodName}/${wodDate}/${wodBody}`, {
+        tableName: selects,
+        wodName: wodName,
         wodDate: wodDate,
         wodBody: wodBody
         }).then(() => {
           setCompetitionList([...competitionList, {
-            name: name,
+            name: selects,
+            wodName: wodName,
+            wodDate: wodDate,
+            wodBody: wodBody
           }])
         })
+
+        Axios.post(url + `updateClasification/${selects}/${wodDate}/`, {
+          tableName: selects,
+          wodDate: wodDate,
+          }).then(() => {
+            setCompetitionList([...competitionList, {
+              name: selects,
+              wodDate: wodDate,
+            }])
+          })
     }
 
-    const getOption = () => {
-      // console.log(e)
-      const name = document.getElementById('competitionName').innerHTML
-      console.log(name)
+    const deleteWod = (wodDate) => {
+      Axios.delete(url + `dropWod/${selects}/${wodDate}`).then((response) => {
+        setWodsList(wodsList.filter((val) => {
+          return val.wodDate !== wodDate
+          }));
+      });
+
+      Axios.post(url + `updateDropClasification/${selects}/${wodDate}`, {
+        tableName: selects,
+        wodDate: wodDate,
+        }).then(() => {
+          setCompetitionList([...competitionList, {
+            name: selects,
+          }])
+        })
+
     }
+
+      console.log(selects)
 
     return (
       <div className="data-card">
         <div 
           className="textbox"
-          // onSubmit={getOption}
         >
           <select 
               className="textcombo"
-              // id="competitionName"
-              onChange={getOption}
+              onChange={e => setSelects(e.target.value)}
           >
           {
               competitionList.map((val, key) => {
                   return (
                       <option
-                      id='competitionName'
-                      key={val.name}
                       value={val.name}
                       >{val.name}</option>
                   )
               })
           }
           </select>
-          {/* <button className="btn" type='submit'>Mostrar</button> */}
         </div> 
           <table>
             <thead className="header">
@@ -94,7 +112,9 @@ export const CreateScreen = () => {
                         placeholder="Nombre del wod"
                         name="name"
                         autoComplete="off"
-                    />
+                        onChange={(event) => {
+                          setWodName(event.target.value);
+                        }}/>
                   </div>
                 </td>
                 <td>
@@ -105,7 +125,7 @@ export const CreateScreen = () => {
                       max="" 
                       name="date"
                       onChange={(event) => {
-                        // setDate(event.target.value);
+                        setWodDate(event.target.value);
                       }}/>
                   </div>
                 </td>
@@ -116,7 +136,9 @@ export const CreateScreen = () => {
                         placeholder="WOD"
                         name="wod"
                         autoComplete="off"
-                    />
+                        onChange={(event) => {
+                          setWodBody(event.target.value);
+                        }}/>
                   </div>
                 </td>
                 <td><button className="btn" onClick={()=>{addWod()}}>Nuevo</button></td>
@@ -126,7 +148,9 @@ export const CreateScreen = () => {
                   return (
                     <tr key={val.name}>
                         <td>{val.name}</td>
-                        {/* <td><button onClick={()=>{deleteCompetition(val.name)}}>Eliminar</button></td> */}
+                        <td>{val.date}</td>
+                        <td>{val.wod}</td>
+                        <td><button className="btn" onClick={()=>{deleteWod(val.date)}}>Eliminar</button></td>
                     </tr>
                   )
                 })

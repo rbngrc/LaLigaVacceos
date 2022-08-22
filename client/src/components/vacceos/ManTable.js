@@ -8,6 +8,7 @@ export const ManTable = () => {
 
   const [athleteList, setAthleteList] = useState([]);
   const [competitionList, setCompetitionList] = useState([]);
+  const [selects, setSelects] = useState([]);
 
   useEffect(() => {
     const getAthletes = async (name) => {
@@ -25,16 +26,18 @@ export const ManTable = () => {
           getCompetitions()
     }, [])
 
+    console.log(selects)
+
     return (
       <div className="data-card">
         <div className="textbox">
           <select 
               className="textcombo"
               name="competition"
+              onChange={e => setSelects(e.target.value)}
           >
           {
               competitionList.map((val, key) => {
-                console.log(val.name)
                   return (
                       <option
                       onChange={(event) => {
@@ -54,7 +57,6 @@ export const ManTable = () => {
                   <th></th>
                   <th>Nombre</th>
                   <th>Puntuación</th>
-                  <th>Mejor Puesto</th>
               </tr>
           </thead>
           

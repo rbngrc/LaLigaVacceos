@@ -67,6 +67,7 @@ export const CompetitionScreen = () => {
   }
 
   return (
+    <div className="data-card">
       <table>
         <thead className="header">
             <tr>
@@ -116,5 +117,6 @@ export const CompetitionScreen = () => {
           }  
         </tbody>
       </table>
+    </div>
   )
 }

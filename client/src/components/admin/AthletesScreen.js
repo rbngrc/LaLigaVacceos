@@ -27,35 +27,34 @@ export const AthletesScreen = () => {
     }
 
   return (
-    <table>
-      <thead className="header">
-          <tr>
-              <th>Nombre</th>
-              <th>nickname</th>
-              <th>Email</th>
-              <th>Sexo</th>
-              <th>Accion</th>
-          </tr>
-      </thead>
-      
-      <tbody>
-        {
-          athleteList.map((val, key) => {
-            return (
-              <tr key={val.email}>
-                  <td>{val.name}</td>
-                  <td>{val.nickname}</td>
-                  <td>{val.email}</td>
-                  <td>{val.sex}</td>
-                  <td ><button className="btn" onClick={()=>{deleteAthlete(val.email)}}>Eliminar</button></td>
-              </tr>
-            )
-          })
-        }  
-      </tbody>
-    </table>
+    <div className="data-card">
+      <table>
+        <thead className="header">
+            <tr>
+                <th>Nombre</th>
+                <th>nickname</th>
+                <th>Email</th>
+                <th>Sexo</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+          {
+            athleteList.map((val, key) => {
+              return (
+                <tr key={val.email}>
+                    <td>{val.name}</td>
+                    <td>{val.nickname}</td>
+                    <td>{val.email}</td>
+                    <td>{val.sex}</td>
+                    <td ><button className="btn" onClick={()=>{deleteAthlete(val.email)}}>Eliminar</button></td>
+                </tr>
+              )
+            })
+          }  
+        </tbody>
+      </table>
+    </div>
   )
-
 }
-
-

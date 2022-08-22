@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import Axios from 'axios';
 // import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from '../../hooks/useForms';
 
@@ -7,6 +8,17 @@ import { url } from '../../constans';
 import '../../styles/insertData.css';
 
 export const PlayerInsertData = () => {
+
+  const [competitionList, setCompetitionList] = useState([]);
+  const [selects, setSelects] = useState([]);
+
+  useEffect(() => {
+    const getCompetitions = async () => {
+            const {data:res} = await Axios.get(url + 'competiciones');
+                setCompetitionList(res)
+        };
+        getCompetitions()
+  }, [])
   
   const [formValues, handleInputChange] = useForm({
       date: "",
@@ -26,6 +38,8 @@ export const PlayerInsertData = () => {
       console.log(min, sec, rounds, reps, weight, date);
   }
 
+  console.log(selects)
+
    return (
         <div className="data-card">
             <div className="wod-title">
@@ -35,13 +49,40 @@ export const PlayerInsertData = () => {
             <div>
                 <form onSubmit={handleAddData} id="form-marca">
                     <div className="form-group">
-                        <input 
-                            type="date" 
-                            min="2021-10-01" 
-                            max="2022-06-31" 
-                            name="date"
-                            onChange={handleInputChange}
-                        />
+                        <select 
+                            className="textcombo"
+                            onChange={e => setSelects(e.target.value)}
+                        >
+                        {
+                            competitionList.map((val, key) => {
+                                return (
+                                    <option
+                                    id='competitionName'
+                                    key={val.name}
+                                    value={val.name}
+                                    >{val.name}</option>
+                                )
+                            })
+                        }
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <select 
+                            className="textcombo"
+                            onChange={e => setSelects(e.target.value)}
+                        >
+                        {
+                            competitionList.map((val, key) => {
+                                return (
+                                    <option
+                                    id='competitionName'
+                                    key={val.name}
+                                    value={val.name}
+                                    >{val.name}</option>
+                                )
+                            })
+                        }
+                        </select>
                     </div>
                     <div className="form-group">
                         <input 
