@@ -9,7 +9,7 @@ export const startLoginEmailPassword = (email, password) => {
 
         firebase.auth().signInWithEmailAndPassword(email, password)
         .then(({user}) => {
-                dispatch(login(user.uid, user.displayName));
+                dispatch(login(user.uid, user.displayName, user.displayEmail));
                 dispatch(finishLoading());
         })
         .catch ( e => {
@@ -25,7 +25,7 @@ export const startRegisterUserPassword = (email, name, nickname, password, passw
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(async({user}) => {
                 await user.updateProfile({displayName: name});
-                dispatch(login(user.uid, user.displayName));
+                dispatch(login(user.uid, user.displayName, user.displayEmail));
             })
             .catch ( e => {
                 console.log(e);
@@ -34,12 +34,13 @@ export const startRegisterUserPassword = (email, name, nickname, password, passw
         }
 }
 
-export const login = (uid, displayName) => {
+export const login = (uid, displayName, displayEmail) => {
     return{
         type: types.login,
         payload: {
             uid,
-            displayName
+            displayName,
+            displayEmail
         }
     }
 }

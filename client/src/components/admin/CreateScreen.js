@@ -22,7 +22,9 @@ export const CreateScreen = () => {
 
     useEffect(() => {
       const getWods = async (selects) => {
-          const {data:res} = await Axios.get(url + `wods/${selects}`);
+          const {data:res} = await Axios.get(url + `wods/${selects}`, {
+            selects: selects
+          });
             setWodsList(res);
             };
             getWods(selects);
@@ -83,10 +85,12 @@ export const CreateScreen = () => {
               className="textcombo"
               onChange={e => setSelects(e.target.value)}
           >
+            <option></option>
           {
               competitionList.map((val, key) => {
                   return (
                       <option
+                      key={val.name}
                       value={val.name}
                       >{val.name}</option>
                   )
@@ -112,6 +116,7 @@ export const CreateScreen = () => {
                         placeholder="Nombre del wod"
                         name="name"
                         autoComplete="off"
+                        required
                         onChange={(event) => {
                           setWodName(event.target.value);
                         }}/>
@@ -124,6 +129,7 @@ export const CreateScreen = () => {
                       min="" 
                       max="" 
                       name="date"
+                      required
                       onChange={(event) => {
                         setWodDate(event.target.value);
                       }}/>
@@ -136,6 +142,7 @@ export const CreateScreen = () => {
                         placeholder="WOD"
                         name="wod"
                         autoComplete="off"
+                        required
                         onChange={(event) => {
                           setWodBody(event.target.value);
                         }}/>
@@ -146,7 +153,7 @@ export const CreateScreen = () => {
               {
                 wodsList.map((val, key) => {
                   return (
-                    <tr key={val.name}>
+                    <tr key={val.date}>
                         <td>{val.name}</td>
                         <td>{val.date}</td>
                         <td>{val.wod}</td>

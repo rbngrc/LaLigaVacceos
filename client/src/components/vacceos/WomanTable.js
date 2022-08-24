@@ -36,6 +36,7 @@ export const WomanTable = () => {
             name="competition"
             onChange={e => setSelects(e.target.value)}
         >
+          <option></option>
         {
             competitionList.map((val, key) => {
                 return (

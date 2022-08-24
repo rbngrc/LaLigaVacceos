@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from "react";
+import { useForm } from '../../hooks/useForms';
 import { useDispatch, useSelector } from 'react-redux';
 // import { useForm } from '../../hooks/useForms';
 import Axios from 'axios';
@@ -14,15 +15,26 @@ export const PlayerInfoScreen = () => {
 
     const { name } = useSelector(state => state.auth);
     const [competitionList, setCompetitionList] = useState([]);
-    const [athletes, setAthlete] = useState([]);
+    const [athlete, setAthlete] = useState([]);
+    const [selects, setSelects] = useState("");
+    const [nickname, setNickname] = useState("");
+    const [nameAthlete, setNameAthlete] = useState("");
+    // const [selects, setSelects] = useState("");
 
     useEffect(() => {
         const getAthletes = async (name) => {
-            const {data:res} = await Axios.get(url + 'atletas/' + name);
+            const {data:res} = await Axios.get(url + `atletas/${name}`);
                 setAthlete(res);
               };
               getAthletes();
-        }, []);
+    }, []);
+
+    // console.log(name)
+    athlete.map((val, key) => {
+        return (
+            console.log(val.name)
+        )
+    })
 
     useEffect(() => {
         const getCompetitions = async () => {
@@ -32,13 +44,51 @@ export const PlayerInfoScreen = () => {
             getCompetitions()
     }, [])
 
-    const updateDatos = () => {
-        console.log("Datos guardados ")
-    }
+    const addAthleteCometition = () => {
+        console.log(selects + " " + name + " " + nickname)
+        alert("Registrado en: " + selects)
+        Axios.post(url + `addAthlete/${selects}/${name}/${nickname}`, {
+          tableName: selects,
+          name: name,
+          nickname: nickname
+          }).then(() => {
+            setCompetitionList([...competitionList, {
+                tableName: selects,
+                name: name,
+                nickname: nickname
+            }])
+          })
+      }
 
-    const addComp = () => {
-        console.log("Anadida Competicion ")
-    }
+        const updateDatos = () => {
+            // Axios.put(url + 'create', {
+            //     email: email,
+            //     name: name,
+            //     nickname: nickname,
+            //     password: password,
+            //     sex: sex,
+            //     competition: competition
+            // }).then(() => {
+            //     setAthlete([...athlete, {
+            //         email: email,
+            //         name: name,
+            //         nickname: nickname,
+            //         password: password,
+            //         sex: sex,
+            //         competition: competition
+            //     }])
+            // })
+
+            console.log("UPDATING")
+        };
+
+        const getValue = () => {
+            athlete.map((val, key) => {
+                return (
+                    val.nickname
+                )
+            })
+        }
 
   return (
     <div className="data-card">
@@ -47,25 +97,28 @@ export const PlayerInfoScreen = () => {
             <hr/>
         </div>
         <div>
+            {
+        athlete.map((val, key) => {
+        return (
+            console.log(val.name)
+        )
+    })
+}
         <form 
             className="info-box"
         >
             <div className="textbox">
                 <label>Nombre</label>
-                {
-                    athletes.map((val, key) => {
-                        return (
-                            [val.name]
-                        )
-                    })
-                }
                 <input 
                     type="text" 
                     placeholder="Nombre" 
                     name="name" 
                     autoComplete="off"
                     required
-                    // value={name}
+                    value={nameAthlete}
+                    onChange={(event) => {
+                        setNameAthlete(event.target.value);
+                    }}
                 />
             </div>
             <div className="textbox">
@@ -76,7 +129,10 @@ export const PlayerInfoScreen = () => {
                     name="nickname" 
                     autoComplete="off"
                     required
-                    // value={nickname}
+                    value={nickname}
+                    onChange={(event) => {
+                        setNickname(event.target.value);
+                    }}
                 />
             </div>
             <div className="textbox">
@@ -87,7 +143,9 @@ export const PlayerInfoScreen = () => {
                     name="password" 
                     autoComplete="off"
                     required
-                    // value={password}
+                    onChange={(event) => {
+                        // setNickname(event.target.value);
+                    }}
                 />
             </div>
             <div className="textbox">
@@ -98,7 +156,9 @@ export const PlayerInfoScreen = () => {
                     name="password2" 
                     autoComplete="off"
                     required
-                    // value={password2}
+                    onChange={(event) => {
+                        // setWodName(event.target.value);
+                    }}
                 />
             </div> 
             <div className="textbox">
@@ -123,40 +183,42 @@ export const PlayerInfoScreen = () => {
             <button 
                 className="btn" 
                 id="btnMarca"
-                type="submit" 
+                onClick={()=>{updateDatos()}}
             >
                 Actualizar datos
             </button>
         </form>
-        <form 
+        <div 
             className="info-box"
         >
-        <div className="textbox">
-                <input type="text"/>
-                <label>Seleccione competición</label>
-
-                <select 
-                    className="textcombo"
-                    name="competition"
-                >
-                {
-                    competitionList.map((val, key) => {
-                        console.log(val.name)
-                        return (
-                            <option>{val.name}</option>
-                        )
-                    })
-                }
-                </select>
+            <div 
+            className="textbox"
+            >
+            <select 
+                className="textcombo"
+                onChange={e => setSelects(e.target.value)}
+            >
+                <option></option>
+            {
+                competitionList.map((val, key) => {
+                    return (
+                        <option
+                        key={val.name}
+                        value={val.name}
+                        >{val.name}</option>
+                    )
+                })
+            }
+            </select>
             </div> 
             <button 
                 className="btn" 
                 id="btnMarca"
-                type="submit" 
+                onClick={()=>{addAthleteCometition()}}
             >
                 Entrar a competir
             </button>
-        </form>
+        </div>
         </div>
         </div>
 )

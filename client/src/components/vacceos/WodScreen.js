@@ -9,23 +9,38 @@ export const WodScreen = () => {
 
     const [competitionList, setCompetitionList] = useState([]);
     const [wodsList, setWodsList] = useState([]);
+    const [wodsDateList, setWodsDateList] = useState([]);
     const [selects, setSelects] = useState([]);
+    const [date, setDate] = useState([]);
 
     useEffect(() => {
-        const getWods = async (selects) => {
-            const {data:res} = await Axios.get(url + `wods/${selects}`);
-              setWodsList(res);
-              };
-              getWods(selects);
-        }, [selects]);
+      const getWods = async (selects) => {
+          const {data:res} = await Axios.get(url + `wods/${selects}`, {
+            selects: selects
+          })
+            setWodsList(res);
+            };
+            getWods(selects);
+      }, [selects]);
 
-        useEffect(() => {
-            const getCompetitions = async () => {
-                    const {data:res} = await Axios.get(url + 'competiciones');
-                        setCompetitionList(res)
-                };
-                getCompetitions()
-          }, [])
+    useEffect(() => {
+        const getCompetitions = async () => {
+                const {data:res} = await Axios.get(url + 'competiciones');
+                    setCompetitionList(res)
+            };
+            getCompetitions()
+      }, [])
+
+    useEffect(() => {
+      const getWodsDate = async (date) => {
+          const {data:res} = await Axios.get(url + `wodsDate/${selects}/${date}`, {
+            selects: selects,
+            date: date
+          })
+            setWodsDateList(res);
+            };
+            getWodsDate(date);
+      }, [selects, date]);
 
   return (
     <div>
@@ -49,16 +64,36 @@ export const WodScreen = () => {
           }
           </select>
         </div> 
+                <div 
+          className="textbox"
+        >
+          <select 
+              className="textcombo"
+              onChange={e => setDate(e.target.value)}
+          >
+            <option></option>
+          {
+              wodsList.map((val, key) => {
+                  return (
+                      <option
+                      key={val.date}
+                      value={val.date}
+                      >{val.date}</option>
+                  )
+              })
+          }
+          </select>
+        </div> 
         {
-                wodsList.map((val, key) => {
+                wodsDateList.map((val, key) => {
                   return (
                     <div key={val.date}>
                     <div className="wod-title">
-                        <h1>{val.name}</h1>
+                        <h1>{val.date}</h1>
                         <hr/>
                     </div>
                     <div className="wod-title">
-                        <h3>{val.date}</h3>
+                        <h3>{val.name}</h3>
                         <hr/>
                     </div>
                     <div className="wod-body">

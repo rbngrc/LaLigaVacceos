@@ -48,12 +48,31 @@ app.post('/create', (req, res) => {
     );
 });
 
+// añadir atleta a base de datos de competicion
+app.post('/addAthlete/:tableName/:name/:nickname/', (req, res) => {
+    const tableName = req.body.tableName;
+    const name = req.body.name;
+    const nickname = req.body.nickname;
+
+    db.query(
+        "INSERT INTO ?? (`name`, `nickname`) VALUES (?, ?)",
+        [tableName, name, nickname],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Values Inserted");
+            }
+        }
+    );
+});
+
 // insertar datos en tabla competiciones
 app.post('/createCompetition', (req, res) => {
     const name = req.body.name;
     const date = req.body.date;
 
-    db.query("INSERT INTO competiciones (name, date) VALUES (?, ?)",
+    db.query("INSERT INTO `competiciones` (`name`, `date`) VALUES (?, ?)",
         [name, date],
         (err, result) => {
             if (err) {
@@ -135,23 +154,6 @@ app.post('/updateDropClasification/:tableName/:wodDate', (req, res) => {
     })
 });
 
-// añadir atleta a base de datos de competicion
-// app.post('/createCompetition', (req, res) => {
-// const name = req.body.name;
-// const date = req.body.date;
-
-// db.query("INSERT INTO competiciones (name, date) VALUES (?, ?)",
-//     [name, date],
-//     (err, result) => {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             res.send("Values Inserted");
-//         }
-//     }
-// );
-// });
-
 /*************** GET ***************/ 
 // obtener atletas tabla atletas
 app.get('/atletas', (req, res) => {
@@ -228,6 +230,22 @@ app.get('/wods/:name', (req, res) => {
 
     db.query("SELECT * FROM ??", 
     [name], 
+    (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(result)
+        }
+    })
+});
+
+// obtener wods segun tabla solicitada $name
+app.get('/wodsDate/:name/:date', (req, res) => {
+    const name = req.params.name + "_wods";
+    const date = req.params.date;
+
+    db.query("SELECT * FROM ?? WHERE date = ?", 
+    [name, date], 
     (err, result) => {
         if (err) {
             console.log(err)

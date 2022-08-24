@@ -36,6 +36,7 @@ export const ManTable = () => {
               name="competition"
               onChange={e => setSelects(e.target.value)}
           >
+            <option></option>
           {
               competitionList.map((val, key) => {
                   return (
@@ -59,7 +60,6 @@ export const ManTable = () => {
                   <th>Puntuación</th>
               </tr>
           </thead>
-          
           <tbody>
             {
               athleteList.map((val, key) => {
