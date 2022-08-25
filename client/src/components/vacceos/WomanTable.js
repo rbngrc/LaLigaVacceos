@@ -12,11 +12,13 @@ export const WomanTable = () => {
 
   useEffect(() => {
     const getAthletes = async (selects) => {
-        const {data:res} = await Axios.get(url + 'atletasFemeninos');
+        const {data:res} = await Axios.get(url + `atletasFemeninos/${selects}`, {
+          competition: selects,
+        });
           setAthleteList(res);
           };
-          getAthletes();
-    }, []);
+          getAthletes(selects);
+    }, [selects]);
 
     useEffect(() => {
       const getCompetitions = async () => {
@@ -26,57 +28,57 @@ export const WomanTable = () => {
           getCompetitions()
     }, [])
 
-    console.log(selects)
-
-  return (
-    <div className="data-card">
-      <div className="textbox">
-        <select 
-            className="textcombo"
-            name="competition"
-            onChange={e => setSelects(e.target.value)}
-        >
-          <option></option>
-        {
-            competitionList.map((val, key) => {
-                return (
-                    <option
-                    onChange={(event) => {
-                      // setCompName(event.target.value);
-                    }}
-                    key={val.name}
-                    >{val.name}</option>
-                )
-            })
-        }
-        </select>
-      </div> 
-      <table>
-        <thead className="header">
-            <tr>
-                <th>Posición</th>
-                <th></th>
-                <th>Nombre</th>
-                <th>Puntuación</th>
-            </tr>
-        </thead>
-        
-        <tbody>
+    return (
+      <div className="data-card">
+        <div className="textbox">
+          <select 
+              className="textcombo"
+              name="competition"
+              onChange={e => setSelects(e.target.value)}
+          >
+            <option></option>
           {
-            athleteList.map((val, key) => {
-              return (
-                <tr key={val.name}>
-                    <td>{val.position}</td>
-                    {/* <td>{val.photo}</td> */}
-                    <td>{val.name}<br/><span className="nickname">{val.nickname}</span></td>
-                    <td>{val.last}</td>
-                    <td>{val.best}</td>
-                </tr>
-              )
-            })
-          }  
-        </tbody>
-      </table>
-    </div>
-  )
+              competitionList.map((val, key) => {
+                  return (
+                      <option
+                      onChange={(event) => {
+                        // setCompName(event.target.value);
+                      }}
+                      key={val.name}
+                      >{val.name}</option>
+                  )
+              })
+          }
+          </select>
+        </div> 
+        <table>
+          <thead className="header">
+              <tr>
+                  <th>Posición</th>
+                  <th></th>
+                  <th>Nombre</th>
+                  <th>Nick</th>
+                  <th>Puntuación</th>
+              </tr>
+          </thead>
+          <tbody>
+            {
+              athleteList.map((val, key) => {
+                return (
+                  <tr key={val.name}>
+                      <td>{val.position}</td>
+                      <td></td>
+                      {/* <td>{val.photo}</td> */}
+                      <td>{val.name}</td>
+                      <td>{val.nickname}</td>
+                      <td>{val.last}</td>
+                      <td>{val.best}</td>
+                  </tr>
+                )
+              })
+            }  
+          </tbody>
+        </table>
+      </div>
+    )
 }

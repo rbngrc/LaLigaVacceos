@@ -11,12 +11,14 @@ export const ManTable = () => {
   const [selects, setSelects] = useState([]);
 
   useEffect(() => {
-    const getAthletes = async (name) => {
-        const {data:res} = await Axios.get(url + 'atletasMasculinos');
+    const getAthletes = async (selects) => {
+        const {data:res} = await Axios.get(url + `atletasMasculinos/${selects}`, {
+          competition: selects,
+        });
           setAthleteList(res);
           };
-          getAthletes();
-    }, []);
+          getAthletes(selects);
+    }, [selects]);
 
     useEffect(() => {
       const getCompetitions = async () => {
@@ -25,8 +27,6 @@ export const ManTable = () => {
           };
           getCompetitions()
     }, [])
-
-    console.log(selects)
 
     return (
       <div className="data-card">
@@ -57,6 +57,7 @@ export const ManTable = () => {
                   <th>Posición</th>
                   <th></th>
                   <th>Nombre</th>
+                  <th>Nick</th>
                   <th>Puntuación</th>
               </tr>
           </thead>
@@ -66,8 +67,10 @@ export const ManTable = () => {
                 return (
                   <tr key={val.name}>
                       <td>{val.position}</td>
+                      <td></td>
                       {/* <td>{val.photo}</td> */}
-                      <td>{val.name}<br/><span className="nickname">{val.nickname}</span></td>
+                      <td>{val.name}</td>
+                      <td>{val.nickname}</td>
                       <td>{val.last}</td>
                       <td>{val.best}</td>
                   </tr>

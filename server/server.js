@@ -49,14 +49,15 @@ app.post('/create', (req, res) => {
 });
 
 // añadir atleta a base de datos de competicion
-app.post('/addAthlete/:tableName/:name/:nickname/', (req, res) => {
+app.post('/addAthlete/:tableName/:name/:nickname/:sex', (req, res) => {
     const tableName = req.body.tableName;
     const name = req.body.name;
     const nickname = req.body.nickname;
+    const sex = req.body.sex;
 
     db.query(
-        "INSERT INTO ?? (`name`, `nickname`) VALUES (?, ?)",
-        [tableName, name, nickname],
+        "INSERT INTO ?? (`name`, `nickname`, `sex`) VALUES (?, ?, ?)",
+        [tableName, name, nickname, sex],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -88,7 +89,7 @@ app.post('/createCompetition', (req, res) => {
 app.post('/createCompetition/:name', (req, res) => {
     const name = req.body.name;
 
-    db.query("CREATE TABLE ?? (name VARCHAR(66) PRIMARY KEY, nickname VARCHAR(66), total VARCHAR(66))", [name], (err, result) => {
+    db.query("CREATE TABLE ?? (name VARCHAR(66) PRIMARY KEY, nickname VARCHAR(66), sex VARCHAR(66), total VARCHAR(66))", [name], (err, result) => {
         if (err) {
             console.log(err);
         } else {
@@ -171,7 +172,7 @@ app.get('/atletas', (req, res) => {
 app.get('/atletasFemeninos/:competition', (req, res) => {
     const competition = req.params.competition;
 
-    db.query("SELECT * FROM ? WHERE sex = 'Femenino'", 
+    db.query("SELECT * FROM ?? WHERE sex = 'Femenino'", 
     [competition],
     (err, result) => {
         if (err) {
@@ -186,7 +187,7 @@ app.get('/atletasFemeninos/:competition', (req, res) => {
 app.get('/atletasMasculinos/:competition', (req, res) => {
     const competition = req.params.competition;
 
-    db.query("SELECT * FROM ? WHERE sex = 'Masculino'", 
+    db.query("SELECT * FROM ?? WHERE sex = 'Masculino'", 
     [competition],
     (err, result) => {
         if (err) {

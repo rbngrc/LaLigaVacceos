@@ -17,8 +17,9 @@ export const PlayerInfoScreen = () => {
     const [competitionList, setCompetitionList] = useState([]);
     const [athlete, setAthlete] = useState([]);
     const [selects, setSelects] = useState("");
-    const [nickname, setNickname] = useState("");
+    const [nicknameAthlete, setNicknameAthlete] = useState("");
     const [nameAthlete, setNameAthlete] = useState("");
+    const [selectsSex, setSelectsSex] = useState("");
     // const [selects, setSelects] = useState("");
 
     useEffect(() => {
@@ -26,15 +27,8 @@ export const PlayerInfoScreen = () => {
             const {data:res} = await Axios.get(url + `atletas/${name}`);
                 setAthlete(res);
               };
-              getAthletes();
+              getAthletes(name);
     }, []);
-
-    // console.log(name)
-    athlete.map((val, key) => {
-        return (
-            console.log(val.name)
-        )
-    })
 
     useEffect(() => {
         const getCompetitions = async () => {
@@ -44,20 +38,22 @@ export const PlayerInfoScreen = () => {
             getCompetitions()
     }, [])
 
-    const addAthleteCometition = () => {
-        console.log(selects + " " + name + " " + nickname)
+    const addAthleteCometition = (nicknameAthlete, selectsSex) => {
         alert("Registrado en: " + selects)
-        Axios.post(url + `addAthlete/${selects}/${name}/${nickname}`, {
+        Axios.post(url + `addAthlete/${selects}/${name}/${nicknameAthlete}/${selectsSex}`, {
           tableName: selects,
           name: name,
-          nickname: nickname
+          nickname: nicknameAthlete,
+          sex: selectsSex
           }).then(() => {
             setCompetitionList([...competitionList, {
                 tableName: selects,
                 name: name,
-                nickname: nickname
+                nickname: nicknameAthlete,
+                sex: selectsSex
             }])
           })
+          console.log(url + `addAthlete/${selects}/${name}/${nicknameAthlete}/${selectsSex}`)
       }
 
         const updateDatos = () => {
@@ -82,14 +78,6 @@ export const PlayerInfoScreen = () => {
             console.log("UPDATING")
         };
 
-        const getValue = () => {
-            athlete.map((val, key) => {
-                return (
-                    val.nickname
-                )
-            })
-        }
-
   return (
     <div className="data-card">
         <div className="wod-title">
@@ -97,19 +85,30 @@ export const PlayerInfoScreen = () => {
             <hr/>
         </div>
         <div>
-            {
-        athlete.map((val, key) => {
-        return (
-            console.log(val.name)
-        )
-    })
-}
         <form 
             className="info-box"
         >
             <div className="textbox">
                 <label>Nombre</label>
+                {
+            athlete.map((val, key) => {
+              return (
                 <input 
+                    key={val.name}
+                    type="text" 
+                    placeholder="Nombre" 
+                    name="name" 
+                    autoComplete="off"
+                    required
+                    value={val.name}
+                    onChange={(event) => {
+                        setNameAthlete(event.target.value);
+                    }}
+                />
+              )
+            })
+          }  
+                {/* <input 
                     type="text" 
                     placeholder="Nombre" 
                     name="name" 
@@ -119,11 +118,29 @@ export const PlayerInfoScreen = () => {
                     onChange={(event) => {
                         setNameAthlete(event.target.value);
                     }}
-                />
-            </div>
+                /> */}
+                
+            </div> 
             <div className="textbox">
                 <label>Apodo</label>
-                <input 
+                {
+                    athlete.map((val, key) => {
+                    return (
+                        <input 
+                            type="text" 
+                            placeholder="Apodo" 
+                            name="nickname" 
+                            autoComplete="off"
+                            required
+                            value={val.nickname}
+                            onChange={(event) => {
+                                setNicknameAthlete(event.target.value);
+                            }}
+                        />
+                    )
+                    })
+                } 
+                {/* <input 
                     type="text" 
                     placeholder="Apodo" 
                     name="nickname" 
@@ -133,11 +150,28 @@ export const PlayerInfoScreen = () => {
                     onChange={(event) => {
                         setNickname(event.target.value);
                     }}
-                />
+                /> */}
             </div>
             <div className="textbox">
                 <label>Contraseña</label>
-                <input 
+                {
+                    athlete.map((val, key) => {
+                    return (
+                        <input 
+                            type="password" 
+                            placeholder="Contraseña" 
+                            name="password" 
+                            autoComplete="off"
+                            required
+                            value={val.password}
+                            onChange={(event) => {
+                                // setPasswordAthlete(event.target.value);
+                            }}
+                        />
+                    )
+                    })
+                } 
+                {/* <input 
                     type="password" 
                     placeholder="Contraseña" 
                     name="password" 
@@ -146,31 +180,27 @@ export const PlayerInfoScreen = () => {
                     onChange={(event) => {
                         // setNickname(event.target.value);
                     }}
-                />
+                /> */}
             </div>
-            <div className="textbox">
-                <label>Repita la contraseña</label>
-                <input 
-                    type="password" 
-                    placeholder="Repita la contraseña" 
-                    name="password2" 
-                    autoComplete="off"
-                    required
-                    onChange={(event) => {
-                        // setWodName(event.target.value);
-                    }}
-                />
-            </div> 
             <div className="textbox">
                 <input type="text"/>
                 <label>Seleccione su sexo</label>
                 <select 
-                    className="textcombo"
-                    name="sex"
-                >
-                    {/* <option>{sex}</option> */}
-                    <option>Femenina</option>
-                    <option>Masculina</option>
+                className="textcombo"
+                onChange={e => setSelectsSex(e.target.value)}
+            >
+            {
+                athlete.map((val, key) => {
+                    return (
+                        <option
+                        key={val.sex}
+                        value={val.sex}
+                        >Actual: {val.sex}</option>
+                    )
+                })
+            }
+                    <option>Femenino</option>
+                    <option>Masculino</option>
                 </select>
             </div> 
 
