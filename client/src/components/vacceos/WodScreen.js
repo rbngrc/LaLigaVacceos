@@ -52,6 +52,7 @@ export const WodScreen = () => {
               className="textcombo"
               onChange={e => setSelects(e.target.value)}
           >
+            <option>Selecciona liga</option>
           {
               competitionList.map((val, key) => {
                   return (
@@ -71,7 +72,7 @@ export const WodScreen = () => {
               className="textcombo"
               onChange={e => setDate(e.target.value)}
           >
-            <option></option>
+            <option>Selecciona WOD</option>
           {
               wodsList.map((val, key) => {
                   return (

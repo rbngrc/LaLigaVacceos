@@ -53,6 +53,7 @@ export const PlayerInsertData = () => {
                             className="textcombo"
                             onChange={e => setSelects(e.target.value)}
                         >
+                            <option>Selecciona liga</option>
                         {
                             competitionList.map((val, key) => {
                                 return (
@@ -71,6 +72,7 @@ export const PlayerInsertData = () => {
                             className="textcombo"
                             onChange={e => setSelects(e.target.value)}
                         >
+                            <option>Selecciona WOD</option>
                         {
                             competitionList.map((val, key) => {
                                 return (

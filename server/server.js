@@ -6,23 +6,23 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
-// const PORT = process.env.PORT || 4000;
-const PORT = 3001;
+const PORT = process.env.PORT || 4000;
+// const PORT = 3001;
 
 // datos de conexión a la base de datos
-// const db = mysql.createPool({
-//     user: 'vNoSui2oOC',
-//     host: 'remotemysql.com',
-//     password: 'RLKb8X8pYt',
-//     database: 'vNoSui2oOC'
-// });
-
 const db = mysql.createPool({
-    user: 'root',
-    host: 'localhost',
-    password: '',
-    database: 'vacceos_championships'
+    user: 'vNoSui2oOC',
+    host: 'remotemysql.com',
+    password: 'RLKb8X8pYt',
+    database: 'vNoSui2oOC'
 });
+
+// const db = mysql.createPool({
+//     user: 'root',
+//     host: 'localhost',
+//     password: '',
+//     database: 'vacceos_championships'
+// });
 
 
 /*************** POST ***************/ 
