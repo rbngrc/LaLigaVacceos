@@ -10,61 +10,34 @@ export const CompetitionScreen = () => {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
 
-  const addCompetition = () => {
-    Axios.post(url + 'createCompetition', {
-        name: name,
-        date: date,
-    }).then(() => {
-        setCompetitionList([...competitionList, {
-          name: name,
-          date: date,
-        }])
-    })
-
-    Axios.post(url + `createCompetition/${name}`, {
-        name: name,
-    }).then(() => {
-        setCompetitionList([...competitionList, {
-          name: name,
-        }])
-    })
-
-    Axios.post(url + `createCompetitionsWods/${name}`, {
-      name: name,
-      }).then(() => {
-          setCompetitionList([...competitionList, {
-            name: name,
-          }])
-      })
-  };
-
   useEffect(() => {
     const getCompetitions = async () => {
-            const {data:res} = await Axios.get(url + 'competiciones');
+            const {data:res} = await Axios.get(`${url}competitions`);
                 setCompetitionList(res)
         };
         getCompetitions()
   }, [])
 
-  const deleteCompetition = (name) => {
-      Axios.delete(url + `deleteCompetition/${name}`).then((response) => {
+  const deleteCompetition = async (nombreComp) => {
+      await Axios.delete(`${url}competitions/${nombreComp}`).then((response) => {
         setCompetitionList(competitionList.filter((val) => {
-          return val.name !== name
-          }));
-      });
-
-      Axios.delete(url + `dropTable/${name}`).then((response) => {
-        setCompetitionList(competitionList.filter((val) => {
-          return val.name !== name
-          }));
-      });
-
-      Axios.delete(url + `dropTableWods/${name}`).then((response) => {
-        setCompetitionList(competitionList.filter((val) => {
-          return val.name !== name
+          return val.nombreComp !== nombreComp
           }));
       });
   }
+
+  useEffect(() => {}, [])
+  const addCompetition = async () => {
+    await Axios.post(`${url}competitions`, {
+      name: name,
+      date: date
+    }).then(() => {
+        setCompetitionList([...competitionList, {
+          name: name,
+          date: date
+        }])
+    })
+  };
 
   return (
     <div className="data-card">
@@ -107,10 +80,10 @@ export const CompetitionScreen = () => {
           {
             competitionList.map((val, key) => {
               return (
-                <tr key={val.name}>
-                    <td>{val.name}</td>
-                    <td>{val.date}</td>
-                    <td><button className="btn" onClick={()=>{deleteCompetition(val.name)}}>Eliminar</button></td>
+                <tr key={key}>
+                    <td>{val.nombreComp}</td>
+                    <td>{val.fecha}</td>
+                    <td><button className="btn" onClick={()=>{deleteCompetition(val.nombreComp)}}>Eliminar</button></td>
                 </tr>
               )
             })

@@ -12,14 +12,14 @@ export const AthletesScreen = () => {
 
   useEffect(() => {
     const getAthletes = async () => {
-        const {data:res} = await Axios.get(url + 'atletas');
+        const {data:res} = await Axios.get(`${url}atheletes`);
             setAthleteList(res);
           };
           getAthletes();
     }, []);
 
     const deleteAthlete = (email) => {
-      Axios.delete(url + `delete/${email}`).then((response) => {
+      Axios.delete(`${url}atheletes/${email}`).then((response) => {
         setAthleteList(athleteList.filter((val) => {
           return val.email !== email
           }));
@@ -43,9 +43,9 @@ export const AthletesScreen = () => {
           {
             athleteList.map((val, key) => {
               return (
-                <tr key={val.email}>
-                    <td>{val.name}</td>
-                    <td>{val.nickname}</td>
+                <tr key={key}>
+                    <td>{val.nombre}</td>
+                    <td>{val.nick}</td>
                     <td>{val.email}</td>
                     <td>{val.sex}</td>
                     <td ><button className="btn" onClick={()=>{deleteAthlete(val.email)}}>Eliminar</button></td>

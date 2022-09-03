@@ -57,7 +57,7 @@ export const WodScreen = () => {
               competitionList.map((val, key) => {
                   return (
                       <option
-                      key={val.name}
+                      key={key}
                       value={val.name}
                       >{val.name}</option>
                   )
@@ -65,7 +65,7 @@ export const WodScreen = () => {
           }
           </select>
         </div> 
-                <div 
+        <div 
           className="textbox"
         >
           <select 
@@ -77,7 +77,7 @@ export const WodScreen = () => {
               wodsList.map((val, key) => {
                   return (
                       <option
-                      key={val.date}
+                      key={key}
                       value={val.date}
                       >{val.date}</option>
                   )
@@ -88,7 +88,7 @@ export const WodScreen = () => {
         {
                 wodsDateList.map((val, key) => {
                   return (
-                    <div key={val.date}>
+                    <div key={key}>
                     <div className="wod-title">
                         <h1>{val.date}</h1>
                         <hr/>

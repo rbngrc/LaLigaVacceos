@@ -59,7 +59,7 @@ export const PlayerInsertData = () => {
                                 return (
                                     <option
                                     id='competitionName'
-                                    key={val.name}
+                                    key={key}
                                     value={val.name}
                                     >{val.name}</option>
                                 )
@@ -78,7 +78,7 @@ export const PlayerInsertData = () => {
                                 return (
                                     <option
                                     id='competitionName'
-                                    key={val.name}
+                                    key={key}
                                     value={val.name}
                                     >{val.name}</option>
                                 )

@@ -14,7 +14,7 @@ export const CreateScreen = () => {
 
     useEffect(() => {
       const getCompetitions = async () => {
-              const {data:res} = await Axios.get(url + 'competiciones');
+              const {data:res} = await Axios.get(`${url}competitions`);
                   setCompetitionList(res)
           };
           getCompetitions()
@@ -22,7 +22,8 @@ export const CreateScreen = () => {
 
     useEffect(() => {
       const getWods = async (selects) => {
-          const {data:res} = await Axios.get(url + `wods/${selects}`, {
+          const {data:res} = await Axios.get(`${url}wods/${selects}`, 
+          {
             selects: selects
           });
             setWodsList(res);
@@ -30,47 +31,50 @@ export const CreateScreen = () => {
             getWods(selects);
       }, [selects]);
 
-    const addWod = () => {
-      Axios.post(url + `createWod/${selects}/${wodName}/${wodDate}/${wodBody}`, {
+    const addWod = () => 
+    {
+      Axios.post(`${url}wods/table/wods`, {
         tableName: selects,
         wodName: wodName,
         wodDate: wodDate,
         wodBody: wodBody
-        }).then(() => {
+      }).then(() => {
           setCompetitionList([...competitionList, {
             name: selects,
             wodName: wodName,
             wodDate: wodDate,
             wodBody: wodBody
           }])
-        })
+      })
 
-        Axios.post(url + `updateClasification/${selects}/${wodDate}/`, {
+        Axios.post(`${url}wods`, 
+        {
           tableName: selects,
           wodDate: wodDate,
-          }).then(() => {
+        }).then(() => {
             setCompetitionList([...competitionList, {
               name: selects,
               wodDate: wodDate,
             }])
-          })
+        })
     }
 
     const deleteWod = (wodDate) => {
-      Axios.delete(url + `dropWod/${selects}/${wodDate}`).then((response) => {
+      Axios.delete(`${url}dropWod/${selects}/${wodDate}`).then((response) => {
         setWodsList(wodsList.filter((val) => {
           return val.wodDate !== wodDate
           }));
       });
 
-      Axios.post(url + `updateDropClasification/${selects}/${wodDate}`, {
+      Axios.post(`${url}/competitions/wods`, 
+      {
         tableName: selects,
         wodDate: wodDate,
-        }).then(() => {
+      }).then(() => {
           setCompetitionList([...competitionList, {
             name: selects,
           }])
-        })
+      })
 
     }
 
@@ -85,14 +89,14 @@ export const CreateScreen = () => {
               className="textcombo"
               onChange={e => setSelects(e.target.value)}
           >
-            <option></option>
+            <option>Seleccione Liga</option>
           {
               competitionList.map((val, key) => {
                   return (
                       <option
-                      key={val.name}
-                      value={val.name}
-                      >{val.name}</option>
+                      key={key}
+                      value={val.nombreComp}
+                      >{val.nombreComp}</option>
                   )
               })
           }
@@ -153,7 +157,7 @@ export const CreateScreen = () => {
               {
                 wodsList.map((val, key) => {
                   return (
-                    <tr key={val.date}>
+                    <tr key={key}>
                         <td>{val.name}</td>
                         <td>{val.date}</td>
                         <td>{val.wod}</td>

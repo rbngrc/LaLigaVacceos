@@ -9,18 +9,19 @@ import"../../styles/registerScreen.css"
 
 import { removeError, setError } from '../../actions/ui';
 import { startRegisterUserPassword } from '../../actions/auth';
+
 import { url } from '../../constans';
 
 export const RegisterScreen = () => {
 
     const addAthlete = () => {
-        Axios.post(url + 'create', {
+        Axios.post(`${url}atheletes`, 
+        {
             email: email,
             name: name,
             nickname: nickname,
             password: password,
             sex: sex,
-            competition: competition
         }).then(() => {
             setAthlete([...athlete, {
                 email: email,
@@ -28,7 +29,6 @@ export const RegisterScreen = () => {
                 nickname: nickname,
                 password: password,
                 sex: sex,
-                competition: competition
             }])
         })
     };
@@ -44,16 +44,15 @@ export const RegisterScreen = () => {
         password: "",
         password2: "",
         sex:"",
-        competition: ""
 })
 
-const {email, name, nickname, password, password2, sex, competition} = formValues;
+const {email, name, nickname, password, password2, sex} = formValues;
 
 const handleRegister = (e) => {
     e.preventDefault();
 
     if (isFormValid()) {
-        dispatch( startRegisterUserPassword(email, name, nickname,password, password2, sex, competition) );
+        dispatch( startRegisterUserPassword(email, name, nickname,password, password2, sex) );
         addAthlete();
     }
 }

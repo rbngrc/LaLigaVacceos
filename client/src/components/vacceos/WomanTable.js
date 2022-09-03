@@ -8,11 +8,14 @@ export const WomanTable = () => {
 
   const [athleteList, setAthleteList] = useState([]);
   const [competitionList, setCompetitionList] = useState([]);
+  const [wodsDateList, setWodsDateList] = useState([]);
+  const [date, setDate] = useState([]);
   const [selects, setSelects] = useState([]);
 
   useEffect(() => {
     const getAthletes = async (selects) => {
-        const {data:res} = await Axios.get(url + `atletasFemeninos/${selects}`, {
+        const {data:res} = await Axios.get(`${url}atheletes/female/${selects}`, 
+        {
           competition: selects,
         });
           setAthleteList(res);
@@ -22,11 +25,22 @@ export const WomanTable = () => {
 
     useEffect(() => {
       const getCompetitions = async () => {
-              const {data:res} = await Axios.get(url + 'competiciones');
+              const {data:res} = await Axios.get(`${url}competitions`);
                   setCompetitionList(res)
           };
           getCompetitions()
     }, [])
+
+    useEffect(() => {
+      const getWodsDate = async (date) => {
+          const {data:res} = await Axios.get(`${url}wods/${selects}/${date}`, {
+            selects: selects,
+            date: date
+          })
+            setWodsDateList(res);
+            }; 
+            getWodsDate(date);
+      }, [selects, date]);
 
     return (
       <div className="data-card">
@@ -42,10 +56,29 @@ export const WomanTable = () => {
                   return (
                       <option
                       onChange={(event) => {
-                        // setCompName(event.target.value);
                       }}
-                      key={val.name}
-                      >{val.name}</option>
+                      key={key}
+                      >{val.nombreComp}</option>
+                  )
+              })
+          }
+          </select>
+        </div>
+        <div 
+          className="textbox"
+        >
+          <select 
+              className="textcombo"
+              onChange={e => setDate(e.target.value)}
+          >
+            <option>Selecciona WOD</option>
+          {
+              wodsDateList.map((val, key) => {
+                  return (
+                      <option
+                      key={key}
+                      // value={val.fecha}
+                      >{val.fecha}</option>
                   )
               })
           }
@@ -65,7 +98,7 @@ export const WomanTable = () => {
             {
               athleteList.map((val, key) => {
                 return (
-                  <tr key={val.name}>
+                  <tr key={key}>
                       <td>{val.position}</td>
                       <td></td>
                       {/* <td>{val.photo}</td> */}
