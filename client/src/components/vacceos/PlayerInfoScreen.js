@@ -149,7 +149,7 @@ export const PlayerInfoScreen = () => {
                                         {
                                             competitionList.map((val, key) => {
                                                 return (
-                                                    <option key={key}>{val.name}</option>
+                                                    <option key={key}>{val.nombreComp}</option>
                                                 )
                                             })
                                         }

@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 
 import { url } from '../../constans';
+import { consultaVacia } from '../../constans';
 
 export const CreateScreen = () => {
 
     const [competitionList, setCompetitionList] = useState([]);
     const [wodsList, setWodsList] = useState([]);
-    const [wodName, setWodName] = useState("");
     const [wodDate, setWodDate] = useState("");
     const [wodBody, setWodBody] = useState("");
     const [selects, setSelects] = useState("");
@@ -21,64 +21,42 @@ export const CreateScreen = () => {
     }, [])
 
     useEffect(() => {
+      if (selects === "") {
+        console.log(consultaVacia)
+      } else {
       const getWods = async (selects) => {
-          const {data:res} = await Axios.get(`${url}wods/${selects}`, 
-          {
+          const {data:res} = await Axios.get(`${url}competitions/wods/${selects}`, {
             selects: selects
           });
             setWodsList(res);
             };
             getWods(selects);
+        }
       }, [selects]);
 
-    const addWod = () => 
-    {
-      Axios.post(`${url}wods/table/wods`, {
-        tableName: selects,
-        wodName: wodName,
+    const addWod = () => {
+      Axios.post(`${url}competitions/wods`, {
+        name: selects,
         wodDate: wodDate,
         wodBody: wodBody
       }).then(() => {
           setCompetitionList([...competitionList, {
             name: selects,
-            wodName: wodName,
             wodDate: wodDate,
             wodBody: wodBody
           }])
       })
-
-        Axios.post(`${url}wods`, 
-        {
-          tableName: selects,
-          wodDate: wodDate,
-        }).then(() => {
-            setCompetitionList([...competitionList, {
-              name: selects,
-              wodDate: wodDate,
-            }])
-        })
     }
 
     const deleteWod = (wodDate) => {
-      Axios.delete(`${url}dropWod/${selects}/${wodDate}`).then((response) => {
+      Axios.delete(`${url}competitions/wods/${wodDate}`).then((response) => {
         setWodsList(wodsList.filter((val) => {
           return val.wodDate !== wodDate
           }));
       });
-
-      Axios.post(`${url}/competitions/wods`, 
-      {
-        tableName: selects,
-        wodDate: wodDate,
-      }).then(() => {
-          setCompetitionList([...competitionList, {
-            name: selects,
-          }])
-      })
-
     }
 
-      console.log(selects)
+      // console.log(selects)
 
     return (
       <div className="data-card">
@@ -105,7 +83,6 @@ export const CreateScreen = () => {
           <table>
             <thead className="header">
                 <tr>
-                    <th>Nombre del wod</th>
                     <th>Fecha del wod</th>
                     <th>WOD</th>
                     <th>Accion</th>
@@ -113,19 +90,6 @@ export const CreateScreen = () => {
             </thead>
             <tbody>
             <tr>
-                <td>
-                  <div className="textbox">
-                    <input 
-                        type="text" 
-                        placeholder="Nombre del wod"
-                        name="name"
-                        autoComplete="off"
-                        required
-                        onChange={(event) => {
-                          setWodName(event.target.value);
-                        }}/>
-                  </div>
-                </td>
                 <td>
                   <div className="textbox">
                     <input 
@@ -158,10 +122,9 @@ export const CreateScreen = () => {
                 wodsList.map((val, key) => {
                   return (
                     <tr key={key}>
-                        <td>{val.name}</td>
-                        <td>{val.date}</td>
+                        <td>{val.fecha}</td>
                         <td>{val.wod}</td>
-                        <td><button className="btn" onClick={()=>{deleteWod(val.date)}}>Eliminar</button></td>
+                        <td><button className="btn" onClick={()=>{deleteWod(val.fecha)}}>Eliminar</button></td>
                     </tr>
                   )
                 })

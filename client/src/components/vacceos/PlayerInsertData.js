@@ -14,7 +14,7 @@ export const PlayerInsertData = () => {
 
   useEffect(() => {
     const getCompetitions = async () => {
-            const {data:res} = await Axios.get(url + 'competiciones');
+            const {data:res} = await Axios.get(`${url}competitions`);
                 setCompetitionList(res)
         };
         getCompetitions()
@@ -60,8 +60,8 @@ export const PlayerInsertData = () => {
                                     <option
                                     id='competitionName'
                                     key={key}
-                                    value={val.name}
-                                    >{val.name}</option>
+                                    value={val.nombreComp}
+                                    >{val.nombreComp}</option>
                                 )
                             })
                         }

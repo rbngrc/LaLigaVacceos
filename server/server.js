@@ -51,11 +51,12 @@ app.get('/atheletes/:name', async (req, res) => {
 });
 
 // obtener atletas femeninos de cualquier competicion
-app.get('/atheletes/female', async (req, res) => {
+app.get('/atheletes/female/:competition', async (req, res) => {
     const competition = req.params.competition;
+    const date = req.body.date;
 
-    db.query("SELECT * FROM ?? WHERE sex = 'Femenino'", 
-    [competition],
+    db.query("SELECT * FROM puntuacion WHERE sex = 'Femenino' AND nombreComp = ? AND fecha = ?", 
+    [competition, date],
     (err, result) => {
         if (err) {
             console.log(err)
@@ -68,9 +69,10 @@ app.get('/atheletes/female', async (req, res) => {
 // obtener atletas masculinos de cualquier competicion
 app.get('/atheletes/male/:competition', async (req, res) => {
     const competition = req.params.competition;
+    const date = req.body.date;
 
-    db.query("SELECT * FROM ?? WHERE sex = 'Masculino'", 
-    [competition],
+    db.query("SELECT * FROM puntuacion WHERE sex = 'Masculino' AND nombreComp = ? AND fecha = ?", 
+    [competition, date],
     (err, result) => {
         if (err) {
             console.log(err)
@@ -138,8 +140,21 @@ app.delete('/atheletes/:email', async (req, res) => {
 /*************** competitions ***************/ 
 // obtener Competiciones tabla competiciones
 app.get('/competitions', async (req, res) => {
-
+    
     db.query("SELECT * FROM competiciones ORDER BY fecha", (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(result)
+        }
+    })
+});
+
+app.get('/competitions/wods/:nombreComp', async (req, res) => {
+    const name = req.params.nombreComp;
+
+    db.query("SELECT * FROM wods WHERE nombreComp = ? ORDER BY fecha", name, 
+    (err, result) => {
         if (err) {
             console.log(err)
         } else {
@@ -167,16 +182,20 @@ app.post('/competitions', async (req, res) => {
 
 // añadir columna en la tabla de la competicion con la fecha del ejercicio
 app.post('/competitions/wods', async (req, res) => {
-    const tableName = req.body.tableName;
-    const wodDate = req.body.wodDate;
+    const nombreComp = req.body.name;
+    const date = req.body.wodDate;
+    const wod = req.body.wodBody;
 
-    db.query("ALTER TABLE ?? ADD COLUMN ?? VARCHAR(66)", [tableName, wodDate], (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result)
+    db.query("INSERT INTO `wods` (`nombreComp`, `fecha`, wod) VALUES (?, ?, ?)",
+        [nombreComp, date, wod],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Values Inserted");
+            }
         }
-    })
+    );
 });
 
 // borrar competicion segun nombre en tabla competiciones
@@ -184,6 +203,20 @@ app.delete('/competitions/:nombreComp', async (req, res) => {
     const nombreComp = req.params.nombreComp;
 
     db.query("DELETE FROM competiciones WHERE nombreComp = ?", nombreComp, 
+    (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+// borrar wod seleccionado
+app.delete('/competitions/wods/:date', async (req, res) => {
+    const date = req.params.date;
+
+    db.query("DELETE FROM wods WHERE fecha = ?", date, 
     (err, result) => {
         if (err) {
             console.log(err);

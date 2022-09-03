@@ -3,6 +3,7 @@ import { useState } from "react";
 import Axios from 'axios';
 
 import { url } from '../../constans';
+import { consultaVacia } from '../../constans';
 
 export const WomanTable = () => {
 
@@ -17,30 +18,35 @@ export const WomanTable = () => {
         const {data:res} = await Axios.get(`${url}atheletes/female/${selects}`, 
         {
           competition: selects,
+          date:date
         });
           setAthleteList(res);
           };
           getAthletes(selects);
-    }, [selects]);
+    }, [selects, date]);
 
     useEffect(() => {
       const getCompetitions = async () => {
-              const {data:res} = await Axios.get(`${url}competitions`);
-                  setCompetitionList(res)
-          };
-          getCompetitions()
-    }, [])
+        const {data:res} = await Axios.get(`${url}competitions`);
+            setCompetitionList(res)
+    };
+    getCompetitions()
+  }, [])
 
-    useEffect(() => {
+  useEffect(() => {
+    if (date === "" || selects === "") {
+      console.log(consultaVacia)
+    } else {
       const getWodsDate = async (date) => {
-          const {data:res} = await Axios.get(`${url}wods/${selects}/${date}`, {
-            selects: selects,
-            date: date
-          })
-            setWodsDateList(res);
-            }; 
-            getWodsDate(date);
-      }, [selects, date]);
+        const {data:res} = await Axios.get(`${url}competitions/wods/${selects}`, {
+          selects: selects,
+          date: date
+        })
+          setWodsDateList(res);
+          }; 
+          getWodsDate(date);
+    }
+  }, [selects, date]);
 
     return (
       <div className="data-card">
