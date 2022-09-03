@@ -17,7 +17,7 @@ export const PlayerInfoScreen = () => {
     const [athletes, setAthletes] = useState([]);
     const [selects, setSelects] = useState("");
     const [nicknameAthlete, setNicknameAthlete] = useState("");
-    // const [nameAthlete, setNameAthlete] = useState("");
+    const [email, setEmail] = useState("");
     // const [passwordAthlete, setPasswordAthlete] = useState("");
     const [selectsSex, setSelectsSex] = useState("");
 
@@ -39,17 +39,19 @@ export const PlayerInfoScreen = () => {
 
     const addAthleteCometition = (nicknameAthlete, selectsSex) => {
         alert("Registrado en: " + selects)
-        Axios.post(`${url}atheletes/competition/${selects}/${name}/${nicknameAthlete}/${selectsSex}`, {
-          tableName: selects,
+        Axios.post(`${url}atheletes/competition`, {
+          nombreComp: selects,
           name: name,
           nickname: nicknameAthlete,
-          sex: selectsSex
+          sex: selectsSex,
+          email: email
           }).then(() => {
             setCompetitionList([...competitionList, {
                 tableName: selects,
                 name: name,
                 nickname: nicknameAthlete,
-                sex: selectsSex
+                sex: selectsSex,
+                email: email
             }])
           })
       }
@@ -67,7 +69,8 @@ export const PlayerInfoScreen = () => {
                             <table key={key}>
                                 <thead className="header">
                                     <tr>
-        
+                                        <th>{val.email}</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -156,7 +159,7 @@ export const PlayerInfoScreen = () => {
                                         </select>
                                     </div>
                                     </td>
-                                    <td><button className="btn" onClick={()=>{addAthleteCometition(nicknameAthlete, selectsSex)}}>Entrar a competir</button></td>
+                                    <td><button className="btn" onClick={()=>{addAthleteCometition(nicknameAthlete, selectsSex, email)}}>Entrar a competir</button></td>
                                 </tr>
                                 </tbody>
                             </table>

@@ -104,24 +104,28 @@ app.post('/atheletes' , async (req, res) => {
 });
 
 // añadir atleta a base de datos de competicion
-// app.post('/atheletes/competition/:tableName/:name/:nickname/:sex', async (req, res) => {
-//     const tableName = req.body.tableName;
-//     const name = req.body.name;
-//     const nickname = req.body.nickname;
-//     const sex = req.body.sex;
+app.post('/atheletes/competition', async (req, res) => {
+    const nombreComp = req.body.nombreComp;
+    const name = req.body.name;
+    const nick = req.body.nickname;
+    const sex = req.body.sex;
+    const email = req.body.email;
+    const fecha = "0000-00-00";
 
-//     db.query(
-//         "INSERT INTO ?? (`name`, `nickname`, `sex`) VALUES (?, ?, ?)",
-//         [tableName, name, nickname, sex],
-//         (err, result) => {
-//             if (err) {
-//                 console.log(err);
-//             } else {
-//                 res.send("Values Inserted");
-//             }
-//         }
-//     );
-// });
+    // `nameAtl`, `sex`, `emailAtl`, `nickAtl`, `nombreComp`, `fecha`, `puntos`, `total`, `peso`, `tiempo`, `reps`
+
+    db.query(
+        "INSERT INTO puntuacion (`nameAtl`, `sex`, `emailAtl`, `nickAtl`, `nombreComp`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)",
+        [name, sex, email, nick, nombreComp, fecha],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Values Inserted");
+            }
+        }
+    );
+});
 
 // borrar datos de atleta por email en tabla atletas
 app.delete('/atheletes/:email', async (req, res) => {
