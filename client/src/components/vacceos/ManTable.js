@@ -50,6 +50,10 @@ export const ManTable = () => {
 
     return (
       <div className="data-card">
+        <div>
+          <h1>Clas. Másculina</h1>
+          <hr />
+        </div>
         <div className="textbox">
           <select 
               className="textcombo"

@@ -50,6 +50,10 @@ export const WomanTable = () => {
 
     return (
       <div className="data-card">
+        <div>
+          <h1>Clas. Femenina</h1>
+          <hr />
+        </div>
         <div className="textbox">
           <select 
               className="textcombo"
