@@ -113,9 +113,7 @@ app.post("/atheletes/competition", async (req, res) => {
   const nick = req.body.nickname;
   const sex = req.body.sex;
   const email = req.body.email;
-  const fecha = "0000-00-00";
-
-  // `nameAtl`, `sex`, `emailAtl`, `nickAtl`, `nombreComp`, `fecha`, `puntos`, `total`, `peso`, `tiempo`, `reps`
+  const fecha = "";
 
   db.query(
     "INSERT INTO puntuacion (`nameAtl`, `sex`, `emailAtl`, `nickAtl`, `nombreComp`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)",
