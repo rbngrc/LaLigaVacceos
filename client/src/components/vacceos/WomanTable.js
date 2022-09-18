@@ -78,14 +78,7 @@ export const WomanTable = () => {
         <select className="textcombo" onChange={(e) => setDate(e.target.value)}>
           <option>Selecciona WOD</option>
           {wodsDateList.map((val, key) => {
-            return (
-              <option
-                key={key}
-                // value={val.fecha}
-              >
-                {val.fecha}
-              </option>
-            );
+            return <option key={key}>{val.fecha}</option>;
           })}
         </select>
       </div>

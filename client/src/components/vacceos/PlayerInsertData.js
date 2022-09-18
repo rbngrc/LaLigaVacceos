@@ -4,11 +4,14 @@ import Axios from "axios";
 import { useForm } from "../../hooks/useForms";
 
 import { url } from "../../constans";
+import { consultaVacia } from "../../constans";
 
 import "../../styles/insertData.css";
 
 export const PlayerInsertData = () => {
   const [competitionList, setCompetitionList] = useState([]);
+  const [wodsDateList, setWodsDateList] = useState([]);
+  const [date, setDate] = useState([]);
   const [selects, setSelects] = useState([]);
 
   useEffect(() => {
@@ -19,8 +22,26 @@ export const PlayerInsertData = () => {
     getCompetitions();
   }, []);
 
+  useEffect(() => {
+    if (date === "" || selects === "") {
+      console.log(consultaVacia);
+    } else {
+      const getWodsDate = async (date) => {
+        const { data: res } = await Axios.get(
+          `${url}competitions/wods/${selects}`,
+          {
+            selects: selects,
+            date: date,
+          }
+        );
+        setWodsDateList(res);
+      };
+      getWodsDate(date);
+    }
+  }, [selects, date]);
+
   const [formValues, handleInputChange] = useForm({
-    date: "",
+    date: date,
     rounds: "",
     reps: "",
     min: "",
@@ -28,7 +49,7 @@ export const PlayerInsertData = () => {
     weight: "",
   });
 
-  const { date, rounds, reps, min, sec, weight } = formValues;
+  const { rounds, reps, min, sec, weight } = formValues;
 
   const handleAddData = (e) => {
     e.preventDefault();
@@ -37,6 +58,7 @@ export const PlayerInsertData = () => {
   };
 
   console.log(selects);
+  console.log(date)
 
   return (
     <div className="data-card">
@@ -61,18 +83,14 @@ export const PlayerInsertData = () => {
               })}
             </select>
           </div>
-          <div className="form-group">
+          <div className="textbox">
             <select
               className="textcombo"
-              onChange={(e) => setSelects(e.target.value)}
+              onChange={(e) => setDate(e.target.value)}
             >
               <option>Selecciona WOD</option>
-              {competitionList.map((val, key) => {
-                return (
-                  <option id="competitionName" key={key}>
-                    {val.fecha}
-                  </option>
-                );
+              {wodsDateList.map((val, key) => {
+                return <option key={key}>{val.fecha}</option>;
               })}
             </select>
           </div>

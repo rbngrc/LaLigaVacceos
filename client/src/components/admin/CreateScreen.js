@@ -63,8 +63,6 @@ export const CreateScreen = () => {
     });
   };
 
-  // console.log(selects)
-
   return (
     <div className="data-card">
       <div className="textbox">

@@ -25,6 +25,7 @@ const db = mysql.createPool({
 });
 
 /*************** athlete ***************/
+// obtener todos los atletas ordenados por nombre
 app.get("/atheletes", (req, res) => {
   db.query("SELECT * FROM atletas ORDER BY nombre", async (err, result) => {
     if (err) {
@@ -154,12 +155,30 @@ app.get("/competitions", async (req, res) => {
   });
 });
 
+// obtener Competiciones tabla competiciones por nombre de competición
 app.get("/competitions/wods/:nombreComp", async (req, res) => {
   const name = req.params.nombreComp;
 
   db.query(
     "SELECT * FROM wods WHERE nombreComp = ? ORDER BY fecha",
     name,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
+app.get("/competitions/wods/:nombreComp/:fecha", async (req, res) => {
+  const name = req.params.nombreComp;
+  const date = req.params.fecha;
+
+  db.query(
+    "SELECT * FROM wods WHERE nombreComp = ? AND fecha = ?",
+    [name, date],
     (err, result) => {
       if (err) {
         console.log(err);
