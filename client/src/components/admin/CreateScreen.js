@@ -1,114 +1,154 @@
-import React, { Fragment, useEffect } from 'react';
-import { useState } from "react";
-import Axios from 'axios';
+import React, { useEffect, useState } from "react";
+import Axios from "axios";
+
+import { url } from "../../constans";
+import { consultaVacia } from "../../constans";
 
 export const CreateScreen = () => {
+  const [competitionList, setCompetitionList] = useState([]);
+  const [wodsList, setWodsList] = useState([]);
+  const [wodDate, setWodDate] = useState("");
+  const [wodBody, setWodBody] = useState("");
+  const [selects, setSelects] = useState("");
 
-    const url = "http://localhost:3001/"
+  useEffect(() => {
+    const getCompetitions = async () => {
+      const { data: res } = await Axios.get(`${url}competitions`);
+      setCompetitionList(res);
+    };
+    getCompetitions();
+  }, []);
 
-    const [competitionList, setCompetitionList] = useState([]);
-    const [wodsList, setWodsList] = useState([]);
-    const [compName, setCompName] = useState("");
+  useEffect(() => {
+    if (selects === "") {
+      console.log(consultaVacia);
+    } else {
+      const getWods = async (selects) => {
+        const { data: res } = await Axios.get(
+          `${url}competitions/wods/${selects}`,
+          {
+            selects: selects,
+          }
+        );
+        setWodsList(res);
+      };
+      getWods(selects);
+    }
+  }, [selects]);
 
-
-    useEffect(() => {
-      const getCompetitions = async () => {
-              const {data:res} = await Axios.get(url + 'competiciones');
-                  setCompetitionList(res)
-          };
-          getCompetitions()
-    }, [])
-
-    useEffect(() => {
-      const getWods = async (name) => {
-          const {data:res} = await Axios.get(url + 'wods/' + name);
-            setWodsList(res);
-            };
-            getWods(compName);
-      }, [compName]);
-
-    // const  = (name) => {
-    //     Axios.get(url + 'wods/' + name).then((response) => {
-    //         (wodsList.filter((val) => {
-    //             return val.name !== name;
-    //         }))
-    //     })
-    // }
-
-    const addWod = (name, wodName) => {
-      Axios.post(url + `createWod/${name}/${wodName}`, {
-        name: name,
-        wodName: wodName
-        }).then(() => {
-          setCompetitionList([...competitionList, {
-            name: name,
-        }])
-    })
-  }
-
-    return (
-      <Fragment>
-      <div className="textbox">
-        <input type="text"/>
-        <select 
-            className="textcombo"
-            name="competition"
-        >
+  const addWod = () => {
+    Axios.post(`${url}competitions/wods`, {
+      name: selects,
+      wodDate: wodDate,
+      wodBody: wodBody,
+    }).then(() => {
+      setCompetitionList([
+        ...competitionList,
         {
-            competitionList.map((val, key) => {
-                return (
-                    <option
-                    onChange={(event) => {
-                      setCompName(event.target.value);
-                    }}
-                    key={val.name}
-                    >{val.name}</option>
-                )
-            })
-        }
-        </select>
-      </div> 
-        <table>
-          <thead className="header">
+          name: selects,
+          wodDate: wodDate,
+          wodBody: wodBody,
+        },
+      ]);
+    });
+  };
 
-              <tr>
-                  <th>Nombre del wod</th>
-                  <th>WOD</th>
-                  <th>Accion</th>
-              </tr>
-          </thead>
-          <tbody>
+  const deleteWod = (wodDate) => {
+    Axios.delete(`${url}competitions/wods/${wodDate}`).then((response) => {
+      setWodsList(
+        wodsList.filter((val) => {
+          return val.wodDate !== wodDate;
+        })
+      );
+    });
+  };
+
+  return (
+    <div className="data-card">
+      <div className="textbox">
+        <select
+          className="textcombo"
+          onChange={(e) => setSelects(e.target.value)}
+        >
+          <option>Seleccione Liga</option>
+          {competitionList.map((val, key) => {
+            return (
+              <option key={key} value={val.nombreComp}>
+                {val.nombreComp}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+      <table>
+        <thead className="header">
           <tr>
-              <td>
-                <input 
-                    type="text" 
-                    placeholder="Nombre del wod"
-                    name="name"
-                    autoComplete="off"
+            <th>Fecha del wod</th>
+            <th>WOD</th>
+            <th>Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div className="textbox">
+                <input
+                  type="date"
+                  min=""
+                  max=""
+                  name="date"
+                  required
+                  onChange={(event) => {
+                    setWodDate(event.target.value);
+                  }}
                 />
-              </td>
-              <td>
-                <textarea 
-                    type="text" 
-                    placeholder="WOD"
-                    name="wod"
-                    autoComplete="off"
+              </div>
+            </td>
+            <td>
+              <div className="textbox">
+                <textarea
+                  type="text"
+                  placeholder="WOD"
+                  name="wod"
+                  autoComplete="off"
+                  required
+                  onChange={(event) => {
+                    setWodBody(event.target.value);
+                  }}
                 />
-              </td>
-              <td><button className="btn" onClick={()=>{addWod()}}>Nuevo</button></td>
-            </tr>
-            {
-              wodsList.map((val, key) => {
-                return (
-                  <tr key={val.name}>
-                      <td>{val.name}</td>
-                      {/* <td><button onClick={()=>{deleteCompetition(val.name)}}>Eliminar</button></td> */}
-                  </tr>
-                )
-              })
-            }  
-          </tbody>
-        </table>
-        </Fragment>
-    )
-}
+              </div>
+            </td>
+            <td>
+              <button
+                className="btn"
+                onClick={() => {
+                  addWod();
+                }}
+              >
+                Nuevo
+              </button>
+            </td>
+          </tr>
+          {wodsList.map((val, key) => {
+            return (
+              <tr key={key}>
+                <td>{val.fecha}</td>
+                <td>{val.wod}</td>
+                <td>
+                  <button
+                    className="btn"
+                    onClick={() => {
+                      deleteWod(val.fecha);
+                    }}
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+};

@@ -48,6 +48,10 @@
 
 .data-card h1 {
     background: none;
+    font-size: 40px;
+    font-family: Homestead;
+    color: #e7799d;
+    padding: 13px 0;
 }
 
 .form-group {
@@ -83,6 +87,11 @@
 }
 
 #btnMarca{
+    margin-bottom: 25px;
+    font-size: 20px;
+}
+
+#btnComp{
     margin-bottom: 25px;
     font-size: 20px;
 }
