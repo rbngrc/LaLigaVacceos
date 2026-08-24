@@ -1,41 +1,18 @@
 import React from 'react';
 import { useState } from "react";
-import Axios from 'axios';
 
-// import { firebase } from "../../firebase/firebase-config"
+import { mockAllAthletes } from '../../mocks/data';
 
 import '../../styles/table.css';
 
 
 export const AthletesScreen = () => {
 
-  const url = "http://localhost:3001/"
+  const [athleteList, setAthleteList] = useState(mockAllAthletes);
 
-  const [athleteList, setAthleteList] = useState([]);
-
-    const getAthletes = () => {
-        Axios.get(url + 'atletas').then((response) => {
-          setAthleteList(response.data)
-          })
-    }
-
-        const deleteAthlete = (email) => {
-        Axios.delete(url + `delete/${email}`).then((response) => {
-          setAthleteList(athleteList.filter((val) => {
-            return val.email !== email
-            }));
-        });
-    }
-
-    // firebase.auth().delete(email).then(() => {
-    //     console.log("Usuario borrado")
-    //   }).catch((error) => {
-    //     console.log(error)
-    //   });
-
-  // };
-
-    getAthletes();
+  const deleteAthlete = (email) => {
+    setAthleteList(athleteList.filter((val) => val.email !== email));
+  }
 
   return (
     <table>
@@ -49,7 +26,7 @@ export const AthletesScreen = () => {
               <th>Accion</th>
           </tr>
       </thead>
-      
+
       <tbody>
         {
           athleteList.map((val, key) => {
@@ -64,11 +41,9 @@ export const AthletesScreen = () => {
               </tr>
             )
           })
-        }  
+        }
       </tbody>
     </table>
   )
 
 }
-
-
