@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
 const mysql = require('mysql2');
@@ -6,12 +8,14 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
-// datos de conexión a la base de datos
+// Credenciales de base de datos vía variables de entorno (ver .env.example).
+// Las credenciales que antes estaban aquí en texto plano quedaron expuestas
+// en el historial del repositorio y deben considerarse comprometidas.
 const db = mysql.createConnection({
-    user: 'vNoSui2oOC',
-    host: 'remotemysql.com',
-    password: 'RLKb8X8pYt',
-    database: 'vNoSui2oOC'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
 
 /*************** POST ***************/ 
@@ -236,6 +240,7 @@ app.delete('/dropTable/:name', (req, res) => {
     });
 });
 
-app.listen(3001, () => {
-    console.log("Server up & running")
+const port = process.env.PORT || 3001;
+app.listen(port, () => {
+    console.log(`Server up & running on port ${port}`)
 });

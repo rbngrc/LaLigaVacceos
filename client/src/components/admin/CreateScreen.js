@@ -1,73 +1,49 @@
-import React, { Fragment, useEffect } from 'react';
-import { useState } from "react";
-import Axios from 'axios';
+import React, { Fragment, useState } from 'react';
+
+import { mockCompetitions, mockWods } from '../../mocks/data';
 
 export const CreateScreen = () => {
 
-    const url = "http://localhost:3001/"
+    const [competitionList] = useState(mockCompetitions);
+    const [wodsByCompetition, setWodsByCompetition] = useState(mockWods);
+    const [compName, setCompName] = useState(mockCompetitions[0]?.name ?? "");
+    const [wodName, setWodName] = useState("");
 
-    const [competitionList, setCompetitionList] = useState([]);
-    const [wodsList, setWodsList] = useState([]);
-    const [compName, setCompName] = useState("");
+    const wodsList = wodsByCompetition[compName] || [];
 
+    const addWod = () => {
+      if (!compName || !wodName) return;
 
-    useEffect(() => {
-      const getCompetitions = async () => {
-              const {data:res} = await Axios.get(url + 'competiciones');
-                  setCompetitionList(res)
-          };
-          getCompetitions()
-    }, [])
-
-    useEffect(() => {
-      const getWods = async (name) => {
-          const {data:res} = await Axios.get(url + 'wods/' + name);
-            setWodsList(res);
-            };
-            getWods(compName);
-      }, [compName]);
-
-    // const  = (name) => {
-    //     Axios.get(url + 'wods/' + name).then((response) => {
-    //         (wodsList.filter((val) => {
-    //             return val.name !== name;
-    //         }))
-    //     })
-    // }
-
-    const addWod = (name, wodName) => {
-      Axios.post(url + `createWod/${name}/${wodName}`, {
-        name: name,
-        wodName: wodName
-        }).then(() => {
-          setCompetitionList([...competitionList, {
-            name: name,
-        }])
-    })
-  }
+      setWodsByCompetition({
+        ...wodsByCompetition,
+        [compName]: [...wodsList, { name: wodName }],
+      });
+      setWodName("");
+    }
 
     return (
       <Fragment>
       <div className="textbox">
-        <input type="text"/>
-        <select 
+        <select
             className="textcombo"
             name="competition"
+            value={compName}
+            onChange={(event) => {
+              setCompName(event.target.value);
+            }}
         >
         {
             competitionList.map((val, key) => {
                 return (
                     <option
-                    onChange={(event) => {
-                      setCompName(event.target.value);
-                    }}
                     key={val.name}
+                    value={val.name}
                     >{val.name}</option>
                 )
             })
         }
         </select>
-      </div> 
+      </div>
         <table>
           <thead className="header">
 
@@ -80,16 +56,18 @@ export const CreateScreen = () => {
           <tbody>
           <tr>
               <td>
-                <input 
-                    type="text" 
+                <input
+                    type="text"
                     placeholder="Nombre del wod"
                     name="name"
                     autoComplete="off"
+                    value={wodName}
+                    onChange={(event) => setWodName(event.target.value)}
                 />
               </td>
               <td>
-                <textarea 
-                    type="text" 
+                <textarea
+                    type="text"
                     placeholder="WOD"
                     name="wod"
                     autoComplete="off"
@@ -102,11 +80,10 @@ export const CreateScreen = () => {
                 return (
                   <tr key={val.name}>
                       <td>{val.name}</td>
-                      {/* <td><button onClick={()=>{deleteCompetition(val.name)}}>Eliminar</button></td> */}
                   </tr>
                 )
               })
-            }  
+            }
           </tbody>
         </table>
         </Fragment>

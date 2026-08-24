@@ -1,55 +1,23 @@
-import React, { useEffect } from 'react';
-import { useState } from "react";
-import Axios from 'axios';
+import React, { useState } from 'react';
+
+import { mockCompetitions } from '../../mocks/data';
 
 export const CompetitionScreen = () => {
 
-  const url = "http://localhost:3001/"
-
-  const [competitionList, setCompetitionList] = useState([]);
+  const [competitionList, setCompetitionList] = useState(mockCompetitions);
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
 
   const addCompetition = () => {
-    Axios.post(url + 'createCompetition', {
-        name: name,
-        date: date,
-    }).then(() => {
-        setCompetitionList([...competitionList, {
-          name: name,
-          date: date,
-        }])
-    })
+    if (!name || !date) return;
 
-    Axios.post(url + `createCompetition/${name}`, {
-        name: name,
-    }).then(() => {
-        setCompetitionList([...competitionList, {
-          name: name,
-        }])
-    })
+    setCompetitionList([...competitionList, { name, date }]);
+    setName("");
+    setDate("");
   };
 
-  useEffect(() => {
-    const getCompetitions = async () => {
-            const {data:res} = await Axios.get(url + 'competiciones');
-                setCompetitionList(res)
-        };
-        getCompetitions()
-  }, [])
-
   const deleteCompetition = (name) => {
-      Axios.delete(url + `deleteCompetition/${name}`).then((response) => {
-        setCompetitionList(competitionList.filter((val) => {
-          return val.name !== name
-          }));
-      });
-
-      Axios.delete(url + `dropTable/${name}`).then((response) => {
-        setCompetitionList(competitionList.filter((val) => {
-          return val.name !== name
-          }));
-      });
+    setCompetitionList(competitionList.filter((val) => val.name !== name));
   }
 
   return (
@@ -65,11 +33,12 @@ export const CompetitionScreen = () => {
         <tr>
             <td>
               <div className="textbox">
-                  <input 
-                      type="text" 
+                  <input
+                      type="text"
                       placeholder="Nombre de la competición"
                       name="name"
                       autoComplete="off"
+                      value={name}
                       onChange={(event) => {
                         setName(event.target.value);
                       }}/>
@@ -77,11 +46,12 @@ export const CompetitionScreen = () => {
             </td>
             <td>
               <div className="textbox">
-                <input 
-                  type="date" 
-                  min="" 
-                  max="" 
+                <input
+                  type="date"
+                  min=""
+                  max=""
                   name="date"
+                  value={date}
                   onChange={(event) => {
                     setDate(event.target.value);
                   }}/>
@@ -99,7 +69,7 @@ export const CompetitionScreen = () => {
                 </tr>
               )
             })
-          }  
+          }
         </tbody>
       </table>
   )
